@@ -16,8 +16,8 @@ The goal of Pegasus is to transform a fresh Fedora Workstation installation into
 Clone the repository:
 
 ```bash
-git clone https://github.com/MoisesHsilva1/Pegasus.git
-cd Pegasus
+git clone https://github.com/MoisesHsilva1/pegasus.git
+cd pegasus
 ```
 
 Run the installer:
