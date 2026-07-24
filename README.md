@@ -54,64 +54,6 @@ Remove Pegasus:
 ./uninstall.sh
 ```
 
-## Installed Applications
-
-### Development
-
-- Visual Studio Code
-- Neovim + LazyVim
-- IntelliJ IDEA Community
-- DBeaver
-- Postman
-- Docker
-
-### Productivity
-
-- Obsidian
-- LibreOffice
-
-### Media
-
-- OBS Studio
-- Spotify
-- VLC
-
-### System
-
-- Alacritty
-- Ulauncher
-- GNOME Tweaks
-- GNOME Extension Manager
-- wl-clipboard
-
-## Features
-
-- GNOME customization
-- Developer-focused workflow
-- Terminal configuration
-- Theme management
-- Application installation automation
-- System diagnostics
-
-## Project Structure
-
-```
-Pegasus/
-├── install.sh
-├── update.sh
-├── uninstall.sh
-├── bin/
-│   └── pegasus
-├── scripts/
-│   ├── packages.sh
-│   ├── applications.sh
-│   ├── gnome.sh
-│   ├── docker.sh
-│   └── doctor.sh
-├── themes/
-└── assets/
-```
-
 ## Credits
 
 Pegasus is inspired by the Omakub project:
