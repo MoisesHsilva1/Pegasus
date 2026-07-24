@@ -5,7 +5,7 @@ export PEGASUS_PATH="${PEGASUS_PATH:-$SCRIPT_DIR}"
 source "$SCRIPT_DIR/scripts/ui.sh"
 
 print_banner
-print_section "Pegasus Fedora Uninstaller"
+print_section "Pegasus Uninstaller"
 
 step_warn "This uninstaller will remove Pegasus desktop launchers, dotfile aliases, and desktop configurations."
 

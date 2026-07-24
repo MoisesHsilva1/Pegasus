@@ -5,7 +5,7 @@ PEGASUS_DIR="${PEGASUS_DIR:-$(cd "$_SCRIPT_DIR/.." && pwd)}"
 source "$PEGASUS_DIR/scripts/ui.sh"
 
 setup_gnome() {
-  print_section "Configuring GNOME Desktop Environment & Extensions"
+  print_section "Configuring GNOME Desktop Environment, Extensions & Ulauncher"
 
   # System Utilities & GNOME Tools
   step_info "Installing GNOME Tweaks, Extension Manager & wl-clipboard..."
@@ -13,11 +13,22 @@ setup_gnome() {
   pipx install gnome-extensions-cli --system-site-packages >/dev/null 2>&1 || true
   step_success "GNOME system tools installed"
 
-  step_info "Generating desktop launchers (Pegasus, Docker & Neovim)..."
+  # Ulauncher Launcher & Dark Theme Configuration
+  step_info "Configuring Ulauncher application launcher..."
+  [ -f "$PEGASUS_DIR/install/desktop/ulauncher.sh" ] && source "$PEGASUS_DIR/install/desktop/ulauncher.sh"
+  step_success "Ulauncher installed & configured with dark theme and autostart"
+
+  # Desktop Launchers
+  step_info "Generating desktop launchers (About, Activity, Basecamp, Docker, HEY, Neovim, Pegasus)..."
   mkdir -p ~/.local/share/applications
-  [ -f "$PEGASUS_DIR/applications/pegasus.sh" ] && source "$PEGASUS_DIR/applications/pegasus.sh"
+  [ -f "$PEGASUS_DIR/applications/About.sh" ] && source "$PEGASUS_DIR/applications/About.sh"
+  [ -f "$PEGASUS_DIR/applications/Activity.sh" ] && source "$PEGASUS_DIR/applications/Activity.sh"
+  [ -f "$PEGASUS_DIR/applications/Basecamp.sh" ] && source "$PEGASUS_DIR/applications/Basecamp.sh"
   [ -f "$PEGASUS_DIR/applications/Docker.sh" ] && source "$PEGASUS_DIR/applications/Docker.sh"
+  [ -f "$PEGASUS_DIR/applications/HEY.sh" ] && source "$PEGASUS_DIR/applications/HEY.sh"
   [ -f "$PEGASUS_DIR/applications/Neovim.sh" ] && source "$PEGASUS_DIR/applications/Neovim.sh"
+  [ -f "$PEGASUS_DIR/applications/Omakub.sh" ] && source "$PEGASUS_DIR/applications/Omakub.sh"
+  [ -f "$PEGASUS_DIR/applications/pegasus.sh" ] && source "$PEGASUS_DIR/applications/pegasus.sh"
   step_success "Desktop launchers generated"
 
   # GNOME Extensions

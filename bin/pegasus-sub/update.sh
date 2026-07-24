@@ -4,7 +4,7 @@ PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
 [ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="${OMAKUB_PATH:-$HOME/.local/share/omakub}"
 
 CHOICES=(
-	"Pegasus Fedora Update Pegasus itself and run any migrations"
+	"Pegasus Update Pegasus itself and run any migrations"
 	"Ollama         Run LLMs, like Meta's Llama3, locally"
 	"LazyGit        TUI for Git"
 	"LazyDocker     TUI for Docker"

@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# Display system information in the terminal
-sudo dnf install -y fastfetch
+PEGASUS_DIR="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+[ ! -d "$PEGASUS_DIR" ] && PEGASUS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
+sudo dnf install -y --skip-unavailable fastfetch >/dev/null 2>&1 || true
 
 # Only attempt to set configuration if fastfetch is not already set
 if [ ! -f "$HOME/.config/fastfetch/config.jsonc" ]; then
-  # Use Omakub fastfetch config
   mkdir -p ~/.config/fastfetch
-  cp ~/.local/share/omakub/configs/fastfetch.jsonc ~/.config/fastfetch/config.jsonc
+  [ -f "$PEGASUS_DIR/configs/fastfetch.jsonc" ] && cp "$PEGASUS_DIR/configs/fastfetch.jsonc" ~/.config/fastfetch/config.jsonc 2>/dev/null || true
 fi

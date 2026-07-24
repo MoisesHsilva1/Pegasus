@@ -48,7 +48,7 @@ Pegasus provides intuitive CLI management tools:
 
 | Command | Description |
 |---------|-------------|
-| `./install.sh` | Runs the full Pegasus Fedora environment installer |
+| `./install.sh` | Runs the full Pegasus environment installer |
 | `./update.sh` | Updates Pegasus repository, DNF system packages, and Flatpaks |
 | `./uninstall.sh` | Interactively uninstalls Pegasus launchers, binaries, and configurations |
 | `pegasus doctor` | Runs system diagnostics and health checks on installed packages and services |

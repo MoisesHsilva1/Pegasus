@@ -9,9 +9,9 @@ cat <<EOF >~/.local/share/applications/Docker.desktop
 [Desktop Entry]
 Version=1.0
 Name=Docker (LazyDocker)
-Comment=Manage Docker containers with LazyDocker TUI
-Exec=lazydocker
-Terminal=true
+Comment=Manage Docker containers with LazyDocker inside Alacritty
+Exec=alacritty --class=Docker --title=LazyDocker -e lazydocker
+Terminal=false
 Type=Application
 Icon=$PEGASUS_DIR/applications/icons/Docker.png
 Categories=Development;System;GTK;

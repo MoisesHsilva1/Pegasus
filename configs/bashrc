@@ -1,4 +1,8 @@
-source ~/.local/share/omakub/defaults/bash/rc
+if [ -f ~/.local/share/pegasus/defaults/bash/rc ]; then
+  source ~/.local/share/pegasus/defaults/bash/rc
+elif [ -f ~/.local/share/omakub/defaults/bash/rc ]; then
+  source ~/.local/share/omakub/defaults/bash/rc
+fi
 
 # Editor used by CLI
 export EDITOR="nvim"

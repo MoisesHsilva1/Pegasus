@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Pegasus Fedora Installer Entry Point
+# Pegasus Installer Entry Point
 set -e
 
 # Determine main root directory of Pegasus
@@ -16,7 +16,7 @@ source "$PEGASUS_DIR/scripts/ui.sh"
 print_banner
 
 # Error trap handler
-trap 'print_box_error "Pegasus Fedora installation failed! You can retry by running: ./install.sh"' ERR
+trap 'print_box_error "Pegasus installation failed! You can retry by running: ./install.sh"' ERR
 
 # 1. System Requirements & Non-Root Guard
 source "$PEGASUS_DIR/scripts/requirements.sh"

@@ -2,9 +2,9 @@
 
 # Only ask for default desktop app choices when running Gnome
 if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
-  OPTIONAL_APPS=("Spotify" "GIMP" "OBS-Studio" "Zoom" "Dropbox")
-  DEFAULT_OPTIONAL_APPS='Spotify,GIMP,OBS-Studio'
-  export OMAKUB_FIRST_RUN_OPTIONAL_APPS=$(gum choose "${OPTIONAL_APPS[@]}" --no-limit --selected $DEFAULT_OPTIONAL_APPS --height 7 --header "Select optional apps" | tr ' ' '-')
+  OPTIONAL_APPS=("Spotify" "GIMP" "OBS-Studio" "1Password" "Mainline-Kernels" "Zoom" "Dropbox")
+  DEFAULT_OPTIONAL_APPS='Spotify,GIMP,OBS-Studio,1Password'
+  export OMAKUB_FIRST_RUN_OPTIONAL_APPS=$(gum choose "${OPTIONAL_APPS[@]}" --no-limit --selected $DEFAULT_OPTIONAL_APPS --height 8 --header "Select optional apps" | tr ' ' '-')
 fi
 
 AVAILABLE_LANGUAGES=("Ruby on Rails" "Node.js" "Go" "PHP" "Python" "Elixir" "Rust" "Java")

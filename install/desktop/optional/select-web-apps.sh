@@ -1,6 +1,8 @@
 #!/bin/bash
 
-source $OMAKUB_PATH/defaults/bash/functions
+PEGASUS_DIR="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+[ ! -d "$PEGASUS_DIR" ] && PEGASUS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+source "$PEGASUS_DIR/defaults/bash/functions" 2>/dev/null || true
 
 AVAILABLE_WEB_APPS=("Chat GPT" "Google Photos" "Google Contacts" "Tailscale")
 apps=$(gum choose "${AVAILABLE_WEB_APPS[@]}" --no-limit --height 6 --header "Select web apps")

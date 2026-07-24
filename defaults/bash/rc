@@ -1,5 +1,8 @@
-source ~/.local/share/omakub/defaults/bash/shell
-source ~/.local/share/omakub/defaults/bash/aliases
-source ~/.local/share/omakub/defaults/bash/functions
-source ~/.local/share/omakub/defaults/bash/prompt
-source ~/.local/share/omakub/defaults/bash/init
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$HOME/.local/share/omakub"
+
+source $PEGASUS_PATH/defaults/bash/shell
+source $PEGASUS_PATH/defaults/bash/aliases
+source $PEGASUS_PATH/defaults/bash/functions
+source $PEGASUS_PATH/defaults/bash/prompt
+source $PEGASUS_PATH/defaults/bash/init

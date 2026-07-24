@@ -7,6 +7,16 @@ source "$PEGASUS_DIR/scripts/ui.sh"
 install_applications() {
   print_section "Installing Desktop Applications & Flatpaks"
 
+  # Core DNF Applications (Alacritty, GNOME Sushi, GNOME Tweaks, wl-clipboard, Ulauncher)
+  step_info "Installing core desktop packages (Alacritty, GNOME Sushi, GNOME Tweaks, wl-clipboard, Ulauncher)..."
+  [ -f "$PEGASUS_DIR/install/desktop/app-alacritty.sh" ] && source "$PEGASUS_DIR/install/desktop/app-alacritty.sh"
+  [ -f "$PEGASUS_DIR/install/desktop/set-alacritty-default.sh" ] && source "$PEGASUS_DIR/install/desktop/set-alacritty-default.sh"
+  [ -f "$PEGASUS_DIR/install/desktop/app-gnome-sushi.sh" ] && source "$PEGASUS_DIR/install/desktop/app-gnome-sushi.sh"
+  [ -f "$PEGASUS_DIR/install/desktop/app-gnome-tweak-tool.sh" ] && source "$PEGASUS_DIR/install/desktop/app-gnome-tweak-tool.sh"
+  [ -f "$PEGASUS_DIR/install/desktop/app-wl-clipboard.sh" ] && source "$PEGASUS_DIR/install/desktop/app-wl-clipboard.sh"
+  [ -f "$PEGASUS_DIR/install/desktop/ulauncher.sh" ] && source "$PEGASUS_DIR/install/desktop/ulauncher.sh"
+  step_success "Core desktop applications installed"
+
   # Ensure Flatpak and Flathub are ready
   step_info "Configuring Flatpak and Flathub repository..."
   sudo dnf install -y --skip-unavailable --skip-broken flatpak gnome-software >/dev/null 2>&1 || true
@@ -23,14 +33,14 @@ install_applications() {
   mkdir -p ~/.config/Code/User
   [ -f "$PEGASUS_DIR/configs/vscode.json" ] && cp "$PEGASUS_DIR/configs/vscode.json" ~/.config/Code/User/settings.json 2>/dev/null || true
   code --install-extension enkia.tokyo-night >/dev/null 2>&1 || true
-  step_success "Visual Studio Code installed"
+  step_success "Visual Studio Code installed and Tokyo Night theme configured"
 
   # LibreOffice
   step_info "Installing LibreOffice..."
   sudo dnf install -y --skip-unavailable --skip-broken libreoffice >/dev/null 2>&1 || true
   step_success "LibreOffice installed"
 
-  # Flatpak Target Applications
+  # Flatpak Target Applications (Obsidian, Signal, Spotify, VLC, OBS Studio, GIMP, DBeaver, Postman, IntelliJ IDEA)
   step_info "Installing desktop applications via Flathub..."
   
   step_info " -> Obsidian"
