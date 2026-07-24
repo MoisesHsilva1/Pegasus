@@ -9,13 +9,13 @@ case "${1:-}" in
     exit 0
     ;;
   "theme")
-    source "$PEGASUS_PATH/bin/pegasus-sub/header.sh" 2>/dev/null || true
-    source "$PEGASUS_PATH/bin/pegasus-sub/theme.sh"
+    shift
+    source "$PEGASUS_PATH/bin/pegasus-sub/theme.sh" "$@"
     exit 0
     ;;
   "font")
-    source "$PEGASUS_PATH/bin/pegasus-sub/header.sh" 2>/dev/null || true
-    source "$PEGASUS_PATH/bin/pegasus-sub/font.sh"
+    shift
+    source "$PEGASUS_PATH/bin/pegasus-sub/font.sh" "$@"
     exit 0
     ;;
   "update")
