@@ -4,7 +4,7 @@ PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
 [ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="${OMAKUB_PATH:-$HOME/.local/share/omakub}"
 
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-gsettings set org.gnome.desktop.interface accent-color "${PEGASUS_THEME_COLOR:-$OMAKUB_THEME_COLOR}" 2>/dev/null || true
+gsettings set org.gnome.desktop.interface accent-color "${PEGASUS_THEME_COLOR:-${OMAKUB_THEME_COLOR:-blue}}" 2>/dev/null || true
 
 THEME_BG="${PEGASUS_THEME_BACKGROUND:-$OMAKUB_THEME_BACKGROUND}"
 BACKGROUND_ORG_PATH="$PEGASUS_PATH/themes/$THEME_BG"

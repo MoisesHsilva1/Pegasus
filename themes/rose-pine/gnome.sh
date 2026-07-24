@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OMAKUB_THEME_COLOR="red"
-OMAKUB_THEME_BACKGROUND="rose-pine/background.jpg"
-source $OMAKUB_PATH/themes/set-gnome-theme.sh
-gsettings set org.gnome.desktop.interface color-scheme 'prefer-light'
+PEGASUS_THEME_COLOR="pink"
+PEGASUS_THEME_BACKGROUND="rose-pine/background.png"
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+source "$PEGASUS_PATH/themes/set-gnome-theme.sh"

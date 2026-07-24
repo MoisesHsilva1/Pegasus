@@ -1,5 +1,6 @@
 #!/bin/bash
 
 VSC_THEME="Kanagawa"
-VSC_EXTENSION="qufiwefefwoyn.kanagawa"
-source $OMAKUB_PATH/themes/set-vscode-theme.sh
+VSC_EXTENSION="tomoki.kanagawa-paper"
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+source "$PEGASUS_PATH/themes/set-vscode-theme.sh"

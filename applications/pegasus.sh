@@ -1,14 +1,21 @@
 #!/bin/bash
 
-cat <<EOF >~/.local/share/applications/Omakub.desktop
+PEGASUS_DIR="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+[ ! -d "$PEGASUS_DIR" ] && PEGASUS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+mkdir -p "$HOME/.local/share/applications"
+
+cat <<EOF >~/.local/share/applications/Pegasus.desktop
 [Desktop Entry]
 Version=1.0
-Name=Omakub
-Comment=Omakub Controls
-Exec=alacritty --config-file /home/$USER/.config/alacritty/pane.toml --class=Omakub --title=Omakub -e omakub
+Name=Pegasus
+Comment=Pegasus Fedora Control Center
+Exec=alacritty --class=Pegasus --title="Pegasus Menu" -e pegasus
 Terminal=false
 Type=Application
-Icon=/home/$USER/.local/share/omakub/applications/icons/Omakub.png
-Categories=GTK;
-StartupNotify=false
+Icon=$PEGASUS_DIR/applications/icons/Pegasus.png
+Categories=Settings;GTK;
+StartupNotify=true
 EOF
+
+chmod +x ~/.local/share/applications/Pegasus.desktop 2>/dev/null || true

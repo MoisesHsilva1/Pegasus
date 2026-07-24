@@ -4,7 +4,7 @@ PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
 [ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="${OMAKUB_PATH:-$HOME/.local/share/omakub}"
 
 THEME_NAMES=("Tokyo Night" "Catppuccin" "Nord" "Everforest" "Gruvbox" "Kanagawa" "Ristretto" "Rose Pine" "Matte Black" "Osaka Jade")
-THEME=$(gum choose "${THEME_NAMES[@]}" "<< Back" --header "Choose your theme" --height 12 | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g')
+THEME=$(gum choose "${THEME_NAMES[@]}" "<< Back" --header "Choose your Pegasus theme" --height 12 | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g')
 
 if [ -n "$THEME" ] && [ "$THEME" != "<<-back" ]; then
   [ -f "$PEGASUS_PATH/themes/$THEME/alacritty.toml" ] && [ -d "$HOME/.config/alacritty" ] && cp $PEGASUS_PATH/themes/$THEME/alacritty.toml ~/.config/alacritty/theme.toml 2>/dev/null || true
@@ -27,4 +27,6 @@ if [ -n "$THEME" ] && [ "$THEME" != "<<-back" ]; then
   [ -f "$PEGASUS_PATH/themes/$THEME/vscode.sh" ] && source $PEGASUS_PATH/themes/$THEME/vscode.sh 2>/dev/null || true
 fi
 
-source $PEGASUS_PATH/bin/pegasus-sub/menu.sh
+if [ -n "$PEGASUS_CLI_MENU" ]; then
+  source "$PEGASUS_PATH/bin/pegasus-sub/menu.sh"
+fi

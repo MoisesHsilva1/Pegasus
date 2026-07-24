@@ -1,5 +1,6 @@
 #!/bin/bash
 
-VSC_THEME="Ocean Green: Dark"
-VSC_EXTENSION="jovejonovski.ocean-green"
-source $OMAKUB_PATH/themes/set-vscode-theme.sh
+VSC_THEME="Osaka Jade"
+VSC_EXTENSION="osaka-jade.osaka-jade"
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+source "$PEGASUS_PATH/themes/set-vscode-theme.sh"

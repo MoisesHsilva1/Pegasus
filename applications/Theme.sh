@@ -13,7 +13,7 @@ Comment=Change and customize the Pegasus Linux desktop appearance
 Exec=alacritty --class=PegasusTheme --title="Pegasus Theme" -e pegasus theme
 Terminal=false
 Type=Application
-Icon=preferences-desktop-theme
+Icon=$PEGASUS_DIR/applications/icons/Pegasus.png
 Categories=Settings;GTK;
 StartupNotify=true
 EOF

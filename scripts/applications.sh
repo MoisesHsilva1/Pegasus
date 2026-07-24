@@ -40,26 +40,11 @@ install_applications() {
   sudo dnf install -y --skip-unavailable --skip-broken libreoffice >/dev/null 2>&1 || true
   step_success "LibreOffice installed"
 
-  # Flatpak Target Applications (Obsidian, Signal, Spotify, VLC, OBS Studio, GIMP, DBeaver, Postman, IntelliJ IDEA)
-  step_info "Installing desktop applications via Flathub..."
+  # Flatpak Target Applications (Obsidian, DBeaver Community, Postman, IntelliJ IDEA Community)
+  step_info "Installing development & productivity applications via Flathub..."
   
   step_info " -> Obsidian"
   flatpak install -y flathub md.obsidian.Obsidian >/dev/null 2>&1 || true
-
-  step_info " -> Signal Desktop"
-  flatpak install -y flathub org.signal.Signal >/dev/null 2>&1 || true
-
-  step_info " -> Spotify"
-  flatpak install -y flathub com.spotify.Client >/dev/null 2>&1 || true
-
-  step_info " -> VLC Media Player"
-  flatpak install -y flathub org.videolan.VLC >/dev/null 2>&1 || true
-
-  step_info " -> OBS Studio"
-  flatpak install -y flathub com.obsproject.Studio >/dev/null 2>&1 || true
-
-  step_info " -> GIMP"
-  flatpak install -y flathub org.gimp.GIMP >/dev/null 2>&1 || true
 
   step_info " -> DBeaver Community"
   flatpak install -y flathub io.dbeaver.DBeaverCommunity >/dev/null 2>&1 || true
@@ -70,7 +55,7 @@ install_applications() {
   step_info " -> IntelliJ IDEA Community"
   flatpak install -y flathub com.jetbrains.IntelliJ-IDEA-Community >/dev/null 2>&1 || true
 
-  step_success "Flathub desktop applications installed"
+  step_success "Flathub applications installed"
 
   # Fonts Installation
   step_info "Installing Cascadia Mono Nerd Font and iA Writer Mono..."

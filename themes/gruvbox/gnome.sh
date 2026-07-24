@@ -1,5 +1,6 @@
 #!/bin/bash
 
-OMAKUB_THEME_COLOR="sage"
-OMAKUB_THEME_BACKGROUND="gruvbox/background.jpg"
-source $OMAKUB_PATH/themes/set-gnome-theme.sh
+PEGASUS_THEME_COLOR="orange"
+PEGASUS_THEME_BACKGROUND="gruvbox/background.png"
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+source "$PEGASUS_PATH/themes/set-gnome-theme.sh"

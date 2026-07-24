@@ -1,5 +1,6 @@
 #!/bin/bash
 
-VSC_THEME="Gruvbox Dark Medium"
+VSC_THEME="Gruvbox Dark Hard"
 VSC_EXTENSION="jdinhlife.gruvbox"
-source $OMAKUB_PATH/themes/set-vscode-theme.sh
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+source "$PEGASUS_PATH/themes/set-vscode-theme.sh"
