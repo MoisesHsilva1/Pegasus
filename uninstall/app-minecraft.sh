@@ -1,3 +1,2 @@
 #!/bin/bash
-
-sudo apt remove -y openjdk-8-jdk minecraft-launcher
+flatpak uninstall -y com.mojang.Minecraft >/dev/null 2>&1 || true

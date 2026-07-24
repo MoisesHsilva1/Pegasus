@@ -1,3 +1,2 @@
 #!/bin/bash
-
-sudo apt remove -y google-chrome-stable
+sudo dnf remove -y google-chrome-stable >/dev/null 2>&1 || true

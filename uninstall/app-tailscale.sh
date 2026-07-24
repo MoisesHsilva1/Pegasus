@@ -1,3 +1,2 @@
 #!/bin/bash
-
-sudo apt remove -y tailscale
+sudo dnf remove -y tailscale >/dev/null 2>&1 || true

@@ -1,3 +1,2 @@
 #!/bin/bash
-
-sudo apt remove -y flameshot
+sudo dnf remove -y flameshot >/dev/null 2>&1 || true

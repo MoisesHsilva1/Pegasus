@@ -1,3 +1,2 @@
 #!/bin/bash
-
-sudo apt remove -y mainline
+sudo dnf copr disable -y @kernel-vanilla/mainline >/dev/null 2>&1 || true
