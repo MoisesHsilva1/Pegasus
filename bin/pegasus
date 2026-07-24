@@ -3,10 +3,30 @@
 PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
 [ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-if [ "$1" = "doctor" ]; then
-  source "$PEGASUS_PATH/scripts/doctor.sh"
-  exit 0
-fi
+case "${1:-}" in
+  "doctor")
+    source "$PEGASUS_PATH/scripts/doctor.sh"
+    exit 0
+    ;;
+  "theme")
+    source "$PEGASUS_PATH/bin/pegasus-sub/header.sh" 2>/dev/null || true
+    source "$PEGASUS_PATH/bin/pegasus-sub/theme.sh"
+    exit 0
+    ;;
+  "font")
+    source "$PEGASUS_PATH/bin/pegasus-sub/header.sh" 2>/dev/null || true
+    source "$PEGASUS_PATH/bin/pegasus-sub/font.sh"
+    exit 0
+    ;;
+  "update")
+    source "$PEGASUS_PATH/update.sh"
+    exit 0
+    ;;
+  "uninstall")
+    source "$PEGASUS_PATH/uninstall.sh"
+    exit 0
+    ;;
+esac
 
-source $PEGASUS_PATH/bin/omakub-sub/header.sh 2>/dev/null || source $PEGASUS_PATH/bin/pegasus-sub/header.sh 2>/dev/null
-source $PEGASUS_PATH/bin/omakub-sub/menu.sh 2>/dev/null || source $PEGASUS_PATH/bin/pegasus-sub/menu.sh 2>/dev/null
+source "$PEGASUS_PATH/bin/pegasus-sub/header.sh" 2>/dev/null || source "$PEGASUS_PATH/bin/omakub-sub/header.sh" 2>/dev/null || true
+source "$PEGASUS_PATH/bin/pegasus-sub/menu.sh" 2>/dev/null || source "$PEGASUS_PATH/bin/omakub-sub/menu.sh" 2>/dev/null || true

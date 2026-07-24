@@ -29,6 +29,7 @@ setup_gnome() {
   [ -f "$PEGASUS_DIR/applications/Neovim.sh" ] && source "$PEGASUS_DIR/applications/Neovim.sh"
   [ -f "$PEGASUS_DIR/applications/Omakub.sh" ] && source "$PEGASUS_DIR/applications/Omakub.sh"
   [ -f "$PEGASUS_DIR/applications/pegasus.sh" ] && source "$PEGASUS_DIR/applications/pegasus.sh"
+  [ -f "$PEGASUS_DIR/applications/Theme.sh" ] && source "$PEGASUS_DIR/applications/Theme.sh"
   step_success "Desktop launchers generated"
 
   # GNOME Extensions
