@@ -1,7 +1,8 @@
 #!/bin/bash
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/ui.sh"
+_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PEGASUS_DIR="${PEGASUS_DIR:-$(cd "$_SCRIPT_DIR/.." && pwd)}"
+source "$PEGASUS_DIR/scripts/ui.sh"
 
 install_packages() {
   print_section "Installing Development Libraries & System Utilities"
@@ -41,8 +42,8 @@ install_packages() {
     git clone --quiet https://github.com/LazyVim/starter ~/.config/nvim
     rm -rf ~/.config/nvim/.git
     mkdir -p ~/.config/nvim/plugin/after
-    [ -f "$PEGASUS_PATH/configs/neovim/transparency.lua" ] && cp "$PEGASUS_PATH/configs/neovim/transparency.lua" ~/.config/nvim/plugin/after/
-    [ -f "$PEGASUS_PATH/themes/tokyo-night/neovim.lua" ] && cp "$PEGASUS_PATH/themes/tokyo-night/neovim.lua" ~/.config/nvim/lua/plugins/theme.lua 2>/dev/null || true
+    [ -f "$PEGASUS_DIR/configs/neovim/transparency.lua" ] && cp "$PEGASUS_DIR/configs/neovim/transparency.lua" ~/.config/nvim/plugin/after/
+    [ -f "$PEGASUS_DIR/themes/tokyo-night/neovim.lua" ] && cp "$PEGASUS_DIR/themes/tokyo-night/neovim.lua" ~/.config/nvim/lua/plugins/theme.lua 2>/dev/null || true
     echo "vim.opt.relativenumber = false" >> ~/.config/nvim/lua/config/options.lua
     step_success "LazyVim configured"
   fi
@@ -74,7 +75,7 @@ install_packages() {
   sudo install zellij /usr/local/bin
   rm -f zellij.tar.gz zellij
   mkdir -p ~/.config/zellij/themes
-  [ -f "$PEGASUS_PATH/configs/zellij.kdl" ] && [ ! -f "$HOME/.config/zellij/config.kdl" ] && cp "$PEGASUS_PATH/configs/zellij.kdl" ~/.config/zellij/config.kdl
+  [ -f "$PEGASUS_DIR/configs/zellij.kdl" ] && [ ! -f "$HOME/.config/zellij/config.kdl" ] && cp "$PEGASUS_DIR/configs/zellij.kdl" ~/.config/zellij/config.kdl
   cd - >/dev/null
   step_success "Zellij installed"
 

@@ -1,7 +1,8 @@
 #!/bin/bash
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/ui.sh"
+_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PEGASUS_DIR="${PEGASUS_DIR:-$(cd "$_SCRIPT_DIR/.." && pwd)}"
+source "$PEGASUS_DIR/scripts/ui.sh"
 
 install_applications() {
   print_section "Installing Desktop Applications & Flatpaks"
@@ -20,7 +21,7 @@ install_applications() {
   fi
   sudo dnf install -y code >/dev/null
   mkdir -p ~/.config/Code/User
-  [ -f "$PEGASUS_PATH/configs/vscode.json" ] && cp "$PEGASUS_PATH/configs/vscode.json" ~/.config/Code/User/settings.json 2>/dev/null || true
+  [ -f "$PEGASUS_DIR/configs/vscode.json" ] && cp "$PEGASUS_DIR/configs/vscode.json" ~/.config/Code/User/settings.json 2>/dev/null || true
   code --install-extension enkia.tokyo-night >/dev/null 2>&1 || true
   step_success "Visual Studio Code installed"
 

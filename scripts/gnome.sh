@@ -1,7 +1,8 @@
 #!/bin/bash
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/ui.sh"
+_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PEGASUS_DIR="${PEGASUS_DIR:-$(cd "$_SCRIPT_DIR/.." && pwd)}"
+source "$PEGASUS_DIR/scripts/ui.sh"
 
 setup_gnome() {
   print_section "Configuring GNOME Desktop Environment & Extensions"
@@ -15,8 +16,8 @@ setup_gnome() {
   # Native Desktop Launchers
   step_info "Generating desktop launchers (Docker & Neovim)..."
   mkdir -p ~/.local/share/applications
-  [ -f "$PEGASUS_PATH/applications/Docker.sh" ] && source "$PEGASUS_PATH/applications/Docker.sh"
-  [ -f "$PEGASUS_PATH/applications/Neovim.sh" ] && source "$PEGASUS_PATH/applications/Neovim.sh"
+  [ -f "$PEGASUS_DIR/applications/Docker.sh" ] && source "$PEGASUS_DIR/applications/Docker.sh"
+  [ -f "$PEGASUS_DIR/applications/Neovim.sh" ] && source "$PEGASUS_DIR/applications/Neovim.sh"
   step_success "Desktop launchers generated"
 
   # GNOME Extensions
@@ -32,17 +33,17 @@ setup_gnome() {
 
   # Apply GNOME Hotkeys & Settings
   step_info "Configuring GNOME keybindings and interface preferences..."
-  [ -f "$PEGASUS_PATH/install/desktop/set-gnome-hotkeys.sh" ] && source "$PEGASUS_PATH/install/desktop/set-gnome-hotkeys.sh" >/dev/null 2>&1 || true
-  [ -f "$PEGASUS_PATH/install/desktop/set-gnome-settings.sh" ] && source "$PEGASUS_PATH/install/desktop/set-gnome-settings.sh" >/dev/null 2>&1 || true
-  [ -f "$PEGASUS_PATH/install/desktop/set-app-grid.sh" ] && source "$PEGASUS_PATH/install/desktop/set-app-grid.sh" >/dev/null 2>&1 || true
-  [ -f "$PEGASUS_PATH/install/desktop/set-dock.sh" ] && source "$PEGASUS_PATH/install/desktop/set-dock.sh" >/dev/null 2>&1 || true
+  [ -f "$PEGASUS_DIR/install/desktop/set-gnome-hotkeys.sh" ] && source "$PEGASUS_DIR/install/desktop/set-gnome-hotkeys.sh" >/dev/null 2>&1 || true
+  [ -f "$PEGASUS_DIR/install/desktop/set-gnome-settings.sh" ] && source "$PEGASUS_DIR/install/desktop/set-gnome-settings.sh" >/dev/null 2>&1 || true
+  [ -f "$PEGASUS_DIR/install/desktop/set-app-grid.sh" ] && source "$PEGASUS_DIR/install/desktop/set-app-grid.sh" >/dev/null 2>&1 || true
+  [ -f "$PEGASUS_DIR/install/desktop/set-dock.sh" ] && source "$PEGASUS_DIR/install/desktop/set-dock.sh" >/dev/null 2>&1 || true
   step_success "GNOME preferences & dock launchers configured"
 
   # Themes
   step_info "Applying default Tokyo Night theme suite..."
   export PEGASUS_THEME_COLOR="blue"
   export PEGASUS_THEME_BACKGROUND="tokyo-night/background.jpg"
-  [ -f "$PEGASUS_PATH/themes/set-gnome-theme.sh" ] && source "$PEGASUS_PATH/themes/set-gnome-theme.sh" >/dev/null 2>&1 || true
+  [ -f "$PEGASUS_DIR/themes/set-gnome-theme.sh" ] && source "$PEGASUS_DIR/themes/set-gnome-theme.sh" >/dev/null 2>&1 || true
   step_success "Theme suite applied"
 }
 
