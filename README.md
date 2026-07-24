@@ -78,9 +78,16 @@ Currently supported:
 To install Pegasus on Fedora Workstation, open a terminal and run:
 
 ```bash
-git clone https://github.com/MoisesHsilva1/Pegasus.git ~/.local/share/pegasus
-cd ~/.local/share/pegasus
-source install.sh
+git clone https://github.com/MoisesHsilva1/Pegasus.git
+cd Pegasus
+chmod +x install.sh boot.sh
+./install.sh
+```
+
+Alternatively, you can run it directly with `bash` or `source`:
+
+```bash
+bash install.sh
 ```
 
 Or run the one-line bootstrapper:
@@ -114,7 +121,7 @@ pegasus
 
 # Architecture
 
-- **`boot.sh` / `install.sh`:** Bootstrap entry points that execute system version verification, user prompts via `gum`, and trigger installation modules.
+- **`boot.sh` / `zinstall.sh`:** Bootstrap entry points that execute system version verification, user prompts via `gum`, and trigger installation modules.
 - **`install/terminal.sh` & `install/desktop.sh`:** Modular installer scripts split into CLI development tools, system libraries, fonts, Flatpaks, and desktop applications.
 - **`defaults/bash/functions`:** Package abstraction layer containing `install_package`, `install_flatpak`, and `install_rpm` functions.
 - **`themes/`:** Centralized theme management coordinating background wallpapers, terminal color schemes, VS Code extensions, and GNOME accents.
