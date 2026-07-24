@@ -1,14 +1,21 @@
 #!/bin/bash
 
+PEGASUS_DIR="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+[ ! -d "$PEGASUS_DIR" ] && PEGASUS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+mkdir -p "$HOME/.local/share/applications"
+
 cat <<EOF >~/.local/share/applications/Docker.desktop
 [Desktop Entry]
 Version=1.0
-Name=Docker
-Comment=Manage Docker containers with LazyDocker
+Name=Docker (LazyDocker)
+Comment=Manage Docker containers with LazyDocker TUI
 Exec=lazydocker
 Terminal=true
 Type=Application
-Icon=/home/$USER/.local/share/omakub/applications/icons/Docker.png
-Categories=GTK;Development;
-StartupNotify=false
+Icon=$PEGASUS_DIR/applications/icons/Docker.png
+Categories=Development;System;GTK;
+StartupNotify=true
 EOF
+
+chmod +x ~/.local/share/applications/Docker.desktop 2>/dev/null || true

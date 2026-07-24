@@ -13,9 +13,9 @@ setup_gnome() {
   pipx install gnome-extensions-cli --system-site-packages >/dev/null 2>&1 || true
   step_success "GNOME system tools installed"
 
-  # Native Desktop Launchers
-  step_info "Generating desktop launchers (Docker & Neovim)..."
+  step_info "Generating desktop launchers (Pegasus, Docker & Neovim)..."
   mkdir -p ~/.local/share/applications
+  [ -f "$PEGASUS_DIR/applications/pegasus.sh" ] && source "$PEGASUS_DIR/applications/pegasus.sh"
   [ -f "$PEGASUS_DIR/applications/Docker.sh" ] && source "$PEGASUS_DIR/applications/Docker.sh"
   [ -f "$PEGASUS_DIR/applications/Neovim.sh" ] && source "$PEGASUS_DIR/applications/Neovim.sh"
   step_success "Desktop launchers generated"
