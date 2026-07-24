@@ -1,18 +1,43 @@
-# Pegasus Fedora
+# Pegasus Linux Setup
 
-**Pegasus Fedora** is a Fedora-native desktop environment setup and adaptation inspired by [Omakub](https://omakub.org). It transforms a fresh Fedora Workstation installation into an opinionated, beautiful, and fully-configured development system.
+## Fedora Developer Environment
 
-While preserving the philosophy, workflow, and aesthetic customization of Omakub, Pegasus Fedora replaces Ubuntu-specific components (`apt`, PPAs, `.deb` packages) with Fedora-native technologies (`dnf`, official RPM repositories, and Flathub Flatpaks).
+Pegasus is a customized Linux environment setup project inspired by Omakub.
+
+The goal of Pegasus is to provide a complete Fedora workstation configuration focused on developers, combining:
+
+- Development tools
+- Terminal customization
+- GNOME personalization
+- Productivity applications
+- Developer workflow optimization
+
+Pegasus transforms a fresh Fedora installation into a ready-to-use development environment.
 
 ---
 
 # Features
 
-- **Fedora Workstation Support:** Tailored specifically for Fedora Workstation running GNOME on Wayland.
-- **Developer Environment:** Out-of-the-box configuration for Neovim (LazyVim), VS Code, Docker, language runtimes via `mise`, and database services.
-- **Curated Desktop Applications:** Includes leading development tools, media creation suites, productivity apps, and communication clients installed via `dnf` and Flathub.
-- **GNOME Customization:** Pre-configured GNOME extensions (Tactile, Just Perfection, Blur My Shell, Space Bar, TopHat, etc.), keyboard shortcuts, and app grid arrangements.
-- **Theme & Aesthetic Suite:** Integrated 10-theme suite featuring curated wallpapers, terminal colors, editor plugins, and GTK accent matching.
+Pegasus provides:
+
+- Customized GNOME desktop environment (Wayland session)
+- Developer-focused applications (VS Code, Neovim/LazyVim, Docker, DBeaver, Postman, IntelliJ)
+- Terminal improvements & shell configurations
+- Development tools & polyglot language runtimes via `mise`
+- Productivity & media workflow setup (Obsidian, LibreOffice, OBS Studio, Spotify, VLC, GIMP, Signal)
+- Visual customization (10 coordinated theme suites, backgrounds, fonts, and GNOME extensions)
+
+---
+
+# Requirements
+
+## Supported System
+
+Currently supported:
+- **Fedora Workstation** (Fedora 40 / 41+)
+- **GNOME Desktop** (Wayland session)
+- Active **Internet connection**
+- User account with **sudo privileges**
 
 ---
 
@@ -50,18 +75,10 @@ While preserving the philosophy, workflow, and aesthetic customization of Omakub
 
 # Installation
 
-## Requirements
-- Fresh **Fedora Workstation** installation
-- **GNOME Desktop** (Wayland session)
-- Active **Internet connection**
-- User with **sudo access**
-
-## Running the Installer
-
-To install Pegasus Fedora, open a terminal and run:
+To install Pegasus on Fedora Workstation, open a terminal and run:
 
 ```bash
-git clone https://github.com/basecamp/omakub.git ~/.local/share/pegasus
+git clone https://github.com/MoisesHsilva1/Pegasus.git ~/.local/share/pegasus
 cd ~/.local/share/pegasus
 source install.sh
 ```
@@ -69,14 +86,14 @@ source install.sh
 Or run the one-line bootstrapper:
 
 ```bash
-source <(curl -sSL https://raw.githubusercontent.com/basecamp/omakub/master/boot.sh)
+source <(curl -sSL https://raw.githubusercontent.com/MoisesHsilva1/Pegasus/main/boot.sh)
 ```
 
 ---
 
 # After Installation
 
-1. **Reboot Recommendation:** Reboot your computer after installation completes to ensure all system group permissions (e.g., Docker `vboxusers`/`docker` groups), udev rules, and GNOME Shell extension schemas take full effect.
+1. **Reboot Recommendation:** Reboot your computer after installation completes to ensure all system group permissions (`docker` group), udev rules, and GNOME Shell extension schemas take full effect.
 2. **Verify Runtimes & Tools:** Test your installed development tools in a terminal window:
 
 ```bash
@@ -87,7 +104,7 @@ java --version
 node --version
 ```
 
-3. **CLI Management:** Access the Pegasus Fedora management menu at any time by running:
+3. **CLI Management:** Access the Pegasus management menu at any time by running:
 
 ```bash
 pegasus
@@ -106,7 +123,7 @@ pegasus
 
 # Fedora Compatibility
 
-Pegasus Fedora replaces legacy Ubuntu installation scripts with Fedora-native tooling:
+Pegasus replaces legacy Ubuntu installation scripts with Fedora-native tooling:
 - Uses **`dnf`** instead of `apt` / `apt-get`.
 - Uses official **RPM repositories** (Microsoft VS Code, Docker CE, Mise) instead of PPAs.
 - Uses **Flathub Flatpaks** for desktop applications instead of `.deb` package downloads.
@@ -125,17 +142,17 @@ Pegasus Fedora replaces legacy Ubuntu installation scripts with Fedora-native to
 
 # Development
 
-Contributors can customize and extend Pegasus Fedora:
+Contributors can customize and extend Pegasus:
 - **Adding Applications:** Create a new installer script under `install/desktop/app-<name>.sh` using `install_package`, `install_flatpak`, or `install_rpm`.
 - **Modifying Themes:** Add or adjust theme assets within `themes/<theme-name>/` and update theme switching logic in `themes/set-gnome-theme.sh`.
-- **Improving Fedora Compatibility:** Audit and submit PRs ensuring all package references map directly to Fedora 40/41+ DNF repositories or Flathub.
+- **Improving Fedora Compatibility:** Audit and submit PRs ensuring all package references map directly to Fedora DNF repositories or Flathub.
 
 ---
 
 ## Credits & Attribution
 
-Pegasus Fedora builds upon the original architecture and design created by Basecamp for [Omakub](https://omakub.org).
+Pegasus builds upon the original architecture and design created by Basecamp for [Omakub](https://omakub.org).
 
 ## License
 
-Pegasus Fedora is released under the [MIT License](https://opensource.org/licenses/MIT).
+Pegasus is released under the [MIT License](https://opensource.org/licenses/MIT).
