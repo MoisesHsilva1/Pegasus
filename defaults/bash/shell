@@ -1,0 +1,15 @@
+# History control
+shopt -s histappend
+HISTCONTROL=ignoreboth
+HISTSIZE=32768
+HISTFILESIZE="${HISTSIZE}"
+
+# Autocompletion
+source /usr/share/bash-completion/bash_completion
+
+# Set complete path
+export PATH="./bin:$HOME/.local/bin:$HOME/.local/share/pegasus/bin:$HOME/.local/share/omakub/bin:$PATH"
+set +h
+
+export PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+export OMAKUB_PATH="${OMAKUB_PATH:-$PEGASUS_PATH}"
