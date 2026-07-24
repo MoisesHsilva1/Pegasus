@@ -19,7 +19,7 @@ sudo dnf install -y git >/dev/null
 
 echo "Cloning Pegasus Fedora..."
 rm -rf ~/.local/share/pegasus ~/.local/share/omakub
-git clone https://github.com/basecamp/omakub.git ~/.local/share/pegasus >/dev/null
+git clone https://github.com/MoisesHsilva1/Pegasus.git ~/.local/share/pegasus >/dev/null
 ln -sf ~/.local/share/pegasus ~/.local/share/omakub
 if [[ $PEGASUS_REF != "master" && -n "$PEGASUS_REF" ]]; then
 	cd ~/.local/share/pegasus

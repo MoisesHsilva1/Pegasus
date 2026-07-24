@@ -3,8 +3,11 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
-[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$HOME/.local/share/omakub"
+# Determine directory of script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PEGASUS_PATH="${PEGASUS_PATH:-$SCRIPT_DIR}"
+export PEGASUS_PATH
+export OMAKUB_PATH="$PEGASUS_PATH"
 
 # Give people a chance to retry running the installation
 trap 'echo "Pegasus Fedora installation failed! You can retry by running: source ~/.local/share/pegasus/install.sh"' ERR
