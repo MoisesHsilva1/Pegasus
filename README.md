@@ -59,7 +59,3 @@ Remove Pegasus:
 Pegasus is inspired by the Omakub project:
 
 https://omakub.org
-
-## License
-
-MIT License
