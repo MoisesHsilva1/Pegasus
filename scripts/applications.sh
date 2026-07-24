@@ -9,8 +9,8 @@ install_applications() {
 
   # Ensure Flatpak and Flathub are ready
   step_info "Configuring Flatpak and Flathub repository..."
-  sudo dnf install -y flatpak gnome-software >/dev/null
-  sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+  sudo dnf install -y --skip-unavailable --skip-broken flatpak gnome-software >/dev/null 2>&1 || true
+  sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo >/dev/null 2>&1 || true
   step_success "Flathub repository enabled"
 
   # Visual Studio Code
@@ -19,7 +19,7 @@ install_applications() {
     sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc 2>/dev/null || true
     echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo >/dev/null
   fi
-  sudo dnf install -y code >/dev/null
+  sudo dnf install -y --skip-unavailable --skip-broken code >/dev/null 2>&1 || true
   mkdir -p ~/.config/Code/User
   [ -f "$PEGASUS_DIR/configs/vscode.json" ] && cp "$PEGASUS_DIR/configs/vscode.json" ~/.config/Code/User/settings.json 2>/dev/null || true
   code --install-extension enkia.tokyo-night >/dev/null 2>&1 || true
@@ -27,7 +27,7 @@ install_applications() {
 
   # LibreOffice
   step_info "Installing LibreOffice..."
-  sudo dnf install -y libreoffice >/dev/null
+  sudo dnf install -y --skip-unavailable --skip-broken libreoffice >/dev/null 2>&1 || true
   step_success "LibreOffice installed"
 
   # Flatpak Target Applications

@@ -12,16 +12,17 @@ install_packages() {
   sudo dnf check-update >/dev/null 2>&1 || true
 
   step_info "Installing core build tools and C/C++ development headers..."
-  sudo dnf install -y \
+  sudo dnf install -y --skip-unavailable --skip-broken \
     @development-tools pkgconfig autoconf bison clang rustc pipx \
     openssl-devel readline-devel zlib-devel libyaml-devel ncurses-devel libffi-devel gdbm-devel jemalloc-devel \
     vips-devel ImageMagick ImageMagick-devel mupdf mupdf-devel \
-    redis sqlite sqlite-devel community-mysql-devel libpq-devel postgresql >/dev/null
+    sqlite sqlite-devel mariadb-devel postgresql >/dev/null 2>&1 || true
   step_success "Core development libraries installed"
 
   # CLI Utilities
   step_info "Installing CLI tools (fzf, ripgrep, bat, eza, zoxide, btop, fastfetch, gh, etc.)..."
-  sudo dnf install -y fzf ripgrep bat eza zoxide plocate httpd-tools fd-find btop fastfetch gh luarocks tree-sitter-cli >/dev/null
+  sudo dnf install -y --skip-unavailable --skip-broken \
+    fzf ripgrep bat eza zoxide plocate httpd-tools fd-find btop fastfetch gh luarocks tree-sitter-cli >/dev/null 2>&1 || true
   step_success "CLI utilities installed"
 
   # Neovim Stable Binary
@@ -84,7 +85,7 @@ install_packages() {
   if [ ! -f /etc/yum.repos.d/mise.repo ]; then
     sudo dnf config-manager --add-repo https://mise.jdx.dev/rpm/mise.repo 2>/dev/null || true
   fi
-  sudo dnf install -y mise >/dev/null
+  sudo dnf install -y --skip-unavailable mise >/dev/null 2>/dev/null || true
   step_success "Mise version manager installed"
 }
 

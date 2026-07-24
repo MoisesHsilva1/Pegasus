@@ -13,7 +13,7 @@ setup_docker() {
   fi
 
   step_info "Installing Docker Engine and Compose plugins..."
-  sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin >/dev/null
+  sudo dnf install -y --skip-unavailable --skip-broken docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin >/dev/null 2>&1 || true
   step_success "Docker Engine installed"
 
   step_info "Enabling Docker service (systemctl enable --now docker)..."

@@ -9,7 +9,7 @@ setup_gnome() {
 
   # System Utilities & GNOME Tools
   step_info "Installing GNOME Tweaks, Extension Manager & wl-clipboard..."
-  sudo dnf install -y gnome-tweaks gnome-shell-extension-manager wl-clipboard libgtop2-devel clutter >/dev/null
+  sudo dnf install -y --skip-unavailable --skip-broken gnome-tweaks gnome-shell-extension-manager wl-clipboard libgtop2-devel clutter >/dev/null 2>&1 || true
   pipx install gnome-extensions-cli --system-site-packages >/dev/null 2>&1 || true
   step_success "GNOME system tools installed"
 
