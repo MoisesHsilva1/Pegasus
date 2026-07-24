@@ -1,44 +1,68 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status
+# Pegasus Fedora Installer Entry Point
 set -e
 
 # Determine directory of script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PEGASUS_PATH="${PEGASUS_PATH:-$SCRIPT_DIR}"
-export PEGASUS_PATH
+export PEGASUS_PATH="${PEGASUS_PATH:-$SCRIPT_DIR}"
 export OMAKUB_PATH="$PEGASUS_PATH"
 
-# Give people a chance to retry running the installation
-trap 'echo "Pegasus Fedora installation failed! You can retry by running: source ~/.local/share/pegasus/install.sh"' ERR
+# Auto-apply execution permissions to scripts
+chmod +x "$SCRIPT_DIR/install.sh" "$SCRIPT_DIR/boot.sh" "$SCRIPT_DIR/update.sh" "$SCRIPT_DIR/uninstall.sh" "$SCRIPT_DIR/bin/pegasus" "$SCRIPT_DIR/scripts"/*.sh 2>/dev/null || true
 
-# Check the distribution name and version and abort if incompatible
-source $PEGASUS_PATH/install/check-version.sh
+# Load UI Formatting & Banners
+source "$SCRIPT_DIR/scripts/ui.sh"
+print_banner
 
-# Ask for app choices
-echo "Get ready to make a few choices..."
-source $PEGASUS_PATH/install/terminal/required/app-gum.sh >/dev/null
-source $PEGASUS_PATH/install/first-run-choices.sh
-source $PEGASUS_PATH/install/identification.sh
+# Error trap handler
+trap 'print_box_error "Pegasus Fedora installation failed! You can retry by running: ./install.sh"' ERR
 
-# Desktop software and tweaks will only be installed if we're running Gnome
-if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
-  # Ensure computer doesn't go to sleep or lock while installing
+# 1. System Requirements & Non-Root Guard
+source "$SCRIPT_DIR/scripts/requirements.sh"
+
+# 2. Interactive First Run Choices
+print_section "Interactive Choices & Identification"
+step_info "Get ready to make a few choices..."
+source "$PEGASUS_PATH/install/terminal/required/app-gum.sh" >/dev/null 2>&1 || true
+source "$PEGASUS_PATH/install/first-run-choices.sh"
+source "$PEGASUS_PATH/install/identification.sh"
+
+# 3. Development Libraries, CLI Packages & Runtimes
+source "$SCRIPT_DIR/scripts/packages.sh"
+
+# 4. Docker Engine & Permissions
+source "$SCRIPT_DIR/scripts/docker.sh"
+
+# 5. Selected Language Runtimes & Database Storage Containers
+print_section "Configuring Selected Language Runtimes & Databases"
+[ -f "$PEGASUS_PATH/install/terminal/select-dev-language.sh" ] && source "$PEGASUS_PATH/install/terminal/select-dev-language.sh"
+[ -f "$PEGASUS_PATH/install/terminal/select-dev-storage.sh" ] && source "$PEGASUS_PATH/install/terminal/select-dev-storage.sh"
+[ -f "$PEGASUS_PATH/install/terminal/set-git.sh" ] && source "$PEGASUS_PATH/install/terminal/set-git.sh"
+
+# 6. Desktop Software & GNOME Tweaks (GNOME Only)
+if [[ "${XDG_CURRENT_DESKTOP:-}" == *"GNOME"* ]]; then
+  # Disable idle sleep during setup
   gsettings set org.gnome.desktop.screensaver lock-enabled false 2>/dev/null || true
   gsettings set org.gnome.desktop.session idle-delay 0 2>/dev/null || true
 
-  echo "Installing terminal and desktop tools..."
+  # Desktop Applications & Flatpaks
+  source "$SCRIPT_DIR/scripts/applications.sh"
 
-  # Install terminal tools
-  source $PEGASUS_PATH/install/terminal.sh
+  # Optional Apps Selected by User
+  if [[ -v OMAKUB_FIRST_RUN_OPTIONAL_APPS && -n "$OMAKUB_FIRST_RUN_OPTIONAL_APPS" ]]; then
+    for app in $OMAKUB_FIRST_RUN_OPTIONAL_APPS; do
+      [ -f "$PEGASUS_PATH/install/desktop/optional/app-${app,,}.sh" ] && source "$PEGASUS_PATH/install/desktop/optional/app-${app,,}.sh"
+    done
+  fi
 
-  # Install desktop tools and tweaks
-  source $PEGASUS_PATH/install/desktop.sh
+  # GNOME Tweaks, Extensions & Themes
+  source "$SCRIPT_DIR/scripts/gnome.sh"
 
-  # Revert to normal idle and lock settings
+  # Revert idle sleep
   gsettings set org.gnome.desktop.screensaver lock-enabled true 2>/dev/null || true
   gsettings set org.gnome.desktop.session idle-delay 300 2>/dev/null || true
-else
-  echo "Only installing terminal tools..."
-  source $PEGASUS_PATH/install/terminal.sh
 fi
+
+# Print Completion Summary
+print_summary

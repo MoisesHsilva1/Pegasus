@@ -1,7 +1,12 @@
 #!/bin/bash
 
 PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
-[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="${OMAKUB_PATH:-$HOME/.local/share/omakub}"
+[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [ "$1" = "doctor" ]; then
+  source "$PEGASUS_PATH/scripts/doctor.sh"
+  exit 0
+fi
 
 source $PEGASUS_PATH/bin/omakub-sub/header.sh 2>/dev/null || source $PEGASUS_PATH/bin/pegasus-sub/header.sh 2>/dev/null
 source $PEGASUS_PATH/bin/omakub-sub/menu.sh 2>/dev/null || source $PEGASUS_PATH/bin/pegasus-sub/menu.sh 2>/dev/null

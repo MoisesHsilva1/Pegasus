@@ -26,6 +26,7 @@ Pegasus provides:
 - Development tools & polyglot language runtimes via `mise`
 - Productivity & media workflow setup (Obsidian, LibreOffice, OBS Studio, Spotify, VLC, GIMP, Signal)
 - Visual customization (10 coordinated theme suites, backgrounds, fonts, and GNOME extensions)
+- Professional CLI experience with step indicators (`[✓]`), pre-flight checks, and diagnostics.
 
 ---
 
@@ -38,6 +39,47 @@ Currently supported:
 - **GNOME Desktop** (Wayland session)
 - Active **Internet connection**
 - User account with **sudo privileges**
+
+---
+
+# Management Commands
+
+Pegasus provides intuitive CLI management tools:
+
+| Command | Description |
+|---------|-------------|
+| `./install.sh` | Runs the full Pegasus Fedora environment installer |
+| `./update.sh` | Updates Pegasus repository, DNF system packages, and Flatpaks |
+| `./uninstall.sh` | Interactively uninstalls Pegasus launchers, binaries, and configurations |
+| `pegasus doctor` | Runs system diagnostics and health checks on installed packages and services |
+| `pegasus` | Opens the interactive settings menu (themes, fonts, apps) |
+
+---
+
+# Installation
+
+To install Pegasus on Fedora Workstation, open a terminal and run:
+
+```bash
+git clone https://github.com/MoisesHsilva1/Pegasus.git
+cd Pegasus
+./install.sh
+```
+
+Or run directly via `bash`:
+
+```bash
+bash install.sh
+```
+
+Or run the one-line bootstrapper:
+
+```bash
+source <(curl -sSL https://raw.githubusercontent.com/MoisesHsilva1/Pegasus/main/boot.sh)
+```
+
+> [!NOTE]
+> Do not execute `./install.sh` with `sudo`. The installer will prompt for your `sudo` password when required.
 
 ---
 
@@ -73,86 +115,57 @@ Currently supported:
 
 ---
 
-# Installation
-
-To install Pegasus on Fedora Workstation, open a terminal and run:
-
-```bash
-git clone https://github.com/MoisesHsilva1/Pegasus.git
-cd Pegasus
-chmod +x install.sh boot.sh
-./install.sh
-```
-
-Alternatively, you can run it directly with `bash` or `source`:
-
-```bash
-bash install.sh
-```
-
-Or run the one-line bootstrapper:
-
-```bash
-source <(curl -sSL https://raw.githubusercontent.com/MoisesHsilva1/Pegasus/main/boot.sh)
-```
-
----
-
 # After Installation
 
 1. **Reboot Recommendation:** Reboot your computer after installation completes to ensure all system group permissions (`docker` group), udev rules, and GNOME Shell extension schemas take full effect.
-2. **Verify Runtimes & Tools:** Test your installed development tools in a terminal window:
+2. **Verify Runtimes & Health:** Run the diagnostic health check tool:
 
 ```bash
-nvim --version
-code --version
-docker --version
-java --version
-node --version
-```
-
-3. **CLI Management:** Access the Pegasus management menu at any time by running:
-
-```bash
-pegasus
+pegasus doctor
 ```
 
 ---
 
 # Architecture
 
-- **`boot.sh` / `zinstall.sh`:** Bootstrap entry points that execute system version verification, user prompts via `gum`, and trigger installation modules.
-- **`install/terminal.sh` & `install/desktop.sh`:** Modular installer scripts split into CLI development tools, system libraries, fonts, Flatpaks, and desktop applications.
-- **`defaults/bash/functions`:** Package abstraction layer containing `install_package`, `install_flatpak`, and `install_rpm` functions.
-- **`themes/`:** Centralized theme management coordinating background wallpapers, terminal color schemes, VS Code extensions, and GNOME accents.
-
----
-
-# Fedora Compatibility
-
-Pegasus replaces legacy Ubuntu installation scripts with Fedora-native tooling:
-- Uses **`dnf`** instead of `apt` / `apt-get`.
-- Uses official **RPM repositories** (Microsoft VS Code, Docker CE, Mise) instead of PPAs.
-- Uses **Flathub Flatpaks** for desktop applications instead of `.deb` package downloads.
-- Enables systemd services (`systemctl enable --now docker`) natively.
+```
+Pegasus/
+├── install.sh             # Primary entry point orchestrator
+├── boot.sh                # Web bootstrapper (curl/wget execution)
+├── update.sh              # Update script for Pegasus & system packages
+├── uninstall.sh           # Uninstaller orchestrator
+├── README.md              # Project documentation
+│
+├── bin/
+│   ├── pegasus            # Primary CLI binary launcher
+│   └── pegasus-sub/       # Sub-commands (theme, font, doctor, etc.)
+│
+├── scripts/
+│   ├── ui.sh              # Terminal formatting, colors, boxes & indicators
+│   ├── requirements.sh    # Pre-check system (OS check, internet, dependencies)
+│   ├── packages.sh        # DNF base libraries & CLI tools installer
+│   ├── applications.sh    # GUI desktop applications & Flathub installer
+│   ├── gnome.sh           # GNOME settings, extensions, themes & dock setup
+│   ├── docker.sh          # Docker engine setup, service enablement & permissions
+│   └── doctor.sh          # Diagnostic tool for system health check
+```
 
 ---
 
 # Troubleshooting
 
+- **Permission Denied (`./install.sh`):** Execute `bash install.sh` or run `chmod +x install.sh boot.sh` beforehand.
 - **Docker Permission Denied:** If running `docker` commands without `sudo` returns a permission error, ensure your user is added to the `docker` group (`sudo usermod -aG docker $USER`) and reboot your system.
 - **Flatpak Installation Errors:** Ensure the Flathub repository is enabled (`flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo`) and update Flatpak metadata (`flatpak update`).
-- **GNOME Extensions Not Appearing:** If extensions fail to load immediately, log out and log back in, or run `sudo glib-compile-schemas /usr/share/glib-2.0/schemas/` to compile missing schema overrides.
-- **Missing Build Headers:** If compiling native gems or C modules fails, verify development libraries are installed (`sudo dnf install -y @development-tools openssl-devel readline-devel zlib-devel`).
+- **GNOME Extensions Not Appearing:** Log out and log back in, or run `sudo glib-compile-schemas /usr/share/glib-2.0/schemas/`.
 
 ---
 
 # Development
 
 Contributors can customize and extend Pegasus:
-- **Adding Applications:** Create a new installer script under `install/desktop/app-<name>.sh` using `install_package`, `install_flatpak`, or `install_rpm`.
+- **Adding Applications:** Create a new installer script under `install/desktop/app-<name>.sh` or add Flathub entries to `scripts/applications.sh`.
 - **Modifying Themes:** Add or adjust theme assets within `themes/<theme-name>/` and update theme switching logic in `themes/set-gnome-theme.sh`.
-- **Improving Fedora Compatibility:** Audit and submit PRs ensuring all package references map directly to Fedora DNF repositories or Flathub.
 
 ---
 
