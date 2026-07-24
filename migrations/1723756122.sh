@@ -1,33 +1,22 @@
 #!/bin/bash
 
-# Uninstall Vitals
-if [ -n "$(gnome-extensions list | grep Vitals@CoreCoding.com)" ]; then
-  gnome-extensions uninstall Vitals@CoreCoding.com
-fi
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-# Install Tophat libraries
-sudo apt install -y gir1.2-gtop-2.0 gir1.2-clutter-1.0
+# Install Tophat libraries on Fedora
+sudo dnf install -y --skip-unavailable libgtop2-devel clutter >/dev/null 2>&1 || true
 
 # Install TopHat
-gext install tophat@fflewddur.github.io
+gext install tophat@fflewddur.github.io >/dev/null 2>&1 || true
 
-sudo cp ~/.local/share/gnome-shell/extensions/tophat@fflewddur.github.io/schemas/org.gnome.shell.extensions.tophat.gschema.xml /usr/share/glib-2.0/schemas/
-sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
-
-# Configure TopHat
-gsettings set org.gnome.shell.extensions.tophat show-icons false
-gsettings set org.gnome.shell.extensions.tophat show-cpu false
-gsettings set org.gnome.shell.extensions.tophat show-disk false
-gsettings set org.gnome.shell.extensions.tophat show-mem false
-gsettings set org.gnome.shell.extensions.tophat network-usage-unit bits
-
-# Set TopHat metrics color to match the theme
-THEME_NAMES=("Tokyo Night" "Catppuccin" "Nord" "Everforest" "Gruvbox" "Kanagawa" "Rose Pine")
-THEME=$(gum choose "${THEME_NAMES[@]}" "Default" --header "Choose your theme" --height 10 | tr '[:upper:]' '[:lower:]' | sed 's/ /-/g')
-
-if [ -n "$THEME" ] && [ "$THEME" != "default" ]; then
-  source $OMAKUB_PATH/themes/$THEME/tophat.sh
+if [ -f ~/.local/share/gnome-shell/extensions/tophat@fflewddur.github.io/schemas/org.gnome.shell.extensions.tophat.gschema.xml ]; then
+  sudo cp ~/.local/share/gnome-shell/extensions/tophat@fflewddur.github.io/schemas/org.gnome.shell.extensions.tophat.gschema.xml /usr/share/glib-2.0/schemas/ 2>/dev/null || true
+  sudo glib-compile-schemas /usr/share/glib-2.0/schemas/ 2>/dev/null || true
 fi
 
-# Logout
-gum confirm "Ready to logout for all settings to take effect?" && gnome-session-quit --logout --no-prompt
+# Configure TopHat
+gsettings set org.gnome.shell.extensions.tophat show-icons false 2>/dev/null || true
+gsettings set org.gnome.shell.extensions.tophat show-cpu false 2>/dev/null || true
+gsettings set org.gnome.shell.extensions.tophat show-disk false 2>/dev/null || true
+gsettings set org.gnome.shell.extensions.tophat show-mem false 2>/dev/null || true
+gsettings set org.gnome.shell.extensions.tophat network-usage-unit bits 2>/dev/null || true

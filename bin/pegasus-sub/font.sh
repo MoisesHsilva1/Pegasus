@@ -1,5 +1,8 @@
 #!/bin/bash
 
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
 set_font() {
 	local font_name=$1
 	local url=$2
@@ -9,18 +12,19 @@ set_font() {
 	if ! $(fc-list | grep -i "$font_name" >/dev/null); then
 		cd /tmp
 		wget -O "$file_name.zip" "$url"
-		unzip "$file_name.zip" -d "$file_name"
-		cp "$file_name"/*."$file_type" ~/.local/share/fonts
+		unzip -qo "$file_name.zip" -d "$file_name"
+		mkdir -p ~/.local/share/fonts
+		cp "$file_name"/*."$file_type" ~/.local/share/fonts 2>/dev/null || true
 		rm -rf "$file_name.zip" "$file_name"
-		fc-cache
-		cd -
+		fc-cache >/dev/null 2>&1 || true
+		cd - >/dev/null
 		clear
-		source $OMAKUB_PATH/ascii.sh
+		source "$PEGASUS_PATH/ascii.sh"
 	fi
 
-	gsettings set org.gnome.desktop.interface monospace-font-name "$font_name 10"
-	cp "$OMAKUB_PATH/configs/alacritty/fonts/$file_name.toml" ~/.config/alacritty/font.toml
-	sed -i "s/\"editor.fontFamily\": \".*\"/\"editor.fontFamily\": \"$font_name\"/g" ~/.config/Code/User/settings.json
+	gsettings set org.gnome.desktop.interface monospace-font-name "$font_name 10" 2>/dev/null || true
+	[ -f "$PEGASUS_PATH/configs/alacritty/fonts/$file_name.toml" ] && cp "$PEGASUS_PATH/configs/alacritty/fonts/$file_name.toml" ~/.config/alacritty/font.toml 2>/dev/null || true
+	[ -f ~/.config/Code/User/settings.json ] && sed -i "s/\"editor.fontFamily\": \".*\"/\"editor.fontFamily\": \"$font_name\"/g" ~/.config/Code/User/settings.json 2>/dev/null || true
 }
 
 if [ "$#" -gt 1 ]; then
@@ -43,9 +47,11 @@ case $choice in
 	set_font "MesloLGS Nerd Font" "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.zip" "ttf"
 	;;
 "> Change size")
-	source $OMAKUB_PATH/bin/omakub-sub/font-size.sh
-	exit
+	source "$PEGASUS_PATH/bin/pegasus-sub/font-size.sh"
+	exit 0
 	;;
 esac
 
-source $OMAKUB_PATH/bin/omakub-sub/menu.sh
+if [ -n "$PEGASUS_CLI_MENU" ]; then
+  source "$PEGASUS_PATH/bin/pegasus-sub/menu.sh"
+fi

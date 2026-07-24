@@ -1,9 +1,9 @@
 #!/bin/bash
 
 PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
-[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="${OMAKUB_PATH:-$HOME/.local/share/omakub}"
+[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
-source $PEGASUS_PATH/ascii.sh
+source "$PEGASUS_PATH/ascii.sh"
 echo "" # Add spacing
-[ -f "$PEGASUS_PATH/version" ] && echo "                                 $(cat $PEGASUS_PATH/version)"
+[ -f "$PEGASUS_PATH/version" ] && echo "                                 $(cat "$PEGASUS_PATH/version")"
 echo "" # Add spacing

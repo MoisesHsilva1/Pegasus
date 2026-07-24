@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Install default databases
-if [[ -v OMAKUB_FIRST_RUN_DBS ]]; then
-	dbs=$OMAKUB_FIRST_RUN_DBS
+DBS="${PEGASUS_FIRST_RUN_DBS:-$OMAKUB_FIRST_RUN_DBS}"
+if [[ -n "$DBS" ]]; then
+	dbs=$DBS
 else
 	AVAILABLE_DBS=("MySQL" "Redis" "PostgreSQL")
 	dbs=$(gum choose "${AVAILABLE_DBS[@]}" --no-limit --height 5 --header "Select databases (runs in Docker)")

@@ -28,5 +28,5 @@ case "${1:-}" in
     ;;
 esac
 
-source "$PEGASUS_PATH/bin/pegasus-sub/header.sh" 2>/dev/null || source "$PEGASUS_PATH/bin/omakub-sub/header.sh" 2>/dev/null || true
-source "$PEGASUS_PATH/bin/pegasus-sub/menu.sh" 2>/dev/null || source "$PEGASUS_PATH/bin/omakub-sub/menu.sh" 2>/dev/null || true
+source "$PEGASUS_PATH/bin/pegasus-sub/header.sh" 2>/dev/null || true
+source "$PEGASUS_PATH/bin/pegasus-sub/menu.sh" 2>/dev/null || true

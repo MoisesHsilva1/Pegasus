@@ -1,8 +1,5 @@
-if [ -f ~/.local/share/pegasus/defaults/bash/rc ]; then
-  source ~/.local/share/pegasus/defaults/bash/rc
-elif [ -f ~/.local/share/omakub/defaults/bash/rc ]; then
-  source ~/.local/share/omakub/defaults/bash/rc
-fi
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+[ -f "$PEGASUS_PATH/defaults/bash/rc" ] && source "$PEGASUS_PATH/defaults/bash/rc"
 
 # Editor used by CLI
 export EDITOR="nvim"

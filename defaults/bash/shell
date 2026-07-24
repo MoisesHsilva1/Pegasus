@@ -5,10 +5,10 @@ HISTSIZE=32768
 HISTFILESIZE="${HISTSIZE}"
 
 # Autocompletion
-source /usr/share/bash-completion/bash_completion
+[ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion 2>/dev/null || true
 
 # Set complete path
-export PATH="./bin:$HOME/.local/bin:$HOME/.local/share/pegasus/bin:$HOME/.local/share/omakub/bin:$PATH"
+export PATH="./bin:$HOME/.local/bin:$HOME/.local/share/pegasus/bin:$PATH"
 set +h
 
 export PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"

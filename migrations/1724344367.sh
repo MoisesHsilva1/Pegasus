@@ -1,13 +1,10 @@
 #!/bin/bash
 
-# Check if fastfetch config.jsonc is already set
-if [ -f "$HOME/.config/fastfetch/config.jsonc" ]; then
-  gum confirm "It appears that a fastfetch configuration is already set. Do you want to overwrite it?" && rm "$HOME/.config/fastfetch/config.jsonc"
-fi
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # Only attempt to set configuration if fastfetch is not already set
 if [ ! -f "$HOME/.config/fastfetch/config.jsonc" ]; then
-  # Use Omakub fastfetch config
   mkdir -p ~/.config/fastfetch
-  cp "$OMAKUB_PATH/configs/fastfetch.jsonc" ~/.config/fastfetch/config.jsonc
+  [ -f "$PEGASUS_PATH/configs/fastfetch.jsonc" ] && cp "$PEGASUS_PATH/configs/fastfetch.jsonc" ~/.config/fastfetch/config.jsonc 2>/dev/null || true
 fi

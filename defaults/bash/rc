@@ -1,8 +1,8 @@
 PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
-[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$HOME/.local/share/omakub"
+[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
-source $PEGASUS_PATH/defaults/bash/shell
-source $PEGASUS_PATH/defaults/bash/aliases
-source $PEGASUS_PATH/defaults/bash/functions
-source $PEGASUS_PATH/defaults/bash/prompt
-source $PEGASUS_PATH/defaults/bash/init
+source "$PEGASUS_PATH/defaults/bash/shell"
+source "$PEGASUS_PATH/defaults/bash/aliases"
+source "$PEGASUS_PATH/defaults/bash/functions"
+source "$PEGASUS_PATH/defaults/bash/prompt"
+source "$PEGASUS_PATH/defaults/bash/init"

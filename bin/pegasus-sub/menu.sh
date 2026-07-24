@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
-[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="${OMAKUB_PATH:-$HOME/.local/share/omakub}"
+[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 export PEGASUS_CLI_MENU=1
 
@@ -14,7 +14,5 @@ fi
 if [ -n "$SUB" ] && [ "$SUB" != "quit" ]; then
   if [ -f "$PEGASUS_PATH/bin/pegasus-sub/$SUB.sh" ]; then
     source "$PEGASUS_PATH/bin/pegasus-sub/$SUB.sh"
-  elif [ -f "$PEGASUS_PATH/bin/omakub-sub/$SUB.sh" ]; then
-    source "$PEGASUS_PATH/bin/omakub-sub/$SUB.sh"
   fi
 fi

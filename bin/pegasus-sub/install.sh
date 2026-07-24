@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
-[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="${OMAKUB_PATH:-$HOME/.local/share/omakub}"
+[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 CHOICES=(
   "Dev Editor        Install alternative programming editors"
@@ -31,7 +31,6 @@ CHOICES=(
 CHOICE=$(gum choose "${CHOICES[@]}" --height 26 --header "Install application")
 
 if [[ "$CHOICE" == "<< Back"* ]] || [[ -z "$CHOICE" ]]; then
-  # Don't install anything
   echo ""
 elif [[ "$CHOICE" == "> All"* ]]; then
   INSTALLER_FILE=$(gum file $PEGASUS_PATH/install)
@@ -54,8 +53,8 @@ else
   *) INSTALLER_FILE="$PEGASUS_PATH/install/desktop/optional/app-$INSTALLER.sh" ;;
   esac
 
-  source $INSTALLER_FILE && gum spin --spinner globe --title "Install completed!" -- sleep 3
+  [ -f "$INSTALLER_FILE" ] && source $INSTALLER_FILE && gum spin --spinner globe --title "Install completed!" -- sleep 3
 fi
 
 clear
-source $PEGASUS_PATH/bin/pegasus
+source "$PEGASUS_PATH/bin/pegasus"

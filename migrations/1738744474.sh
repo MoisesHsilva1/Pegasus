@@ -1,5 +1,5 @@
 #!/bin/bash
 
 # Local XCompose must change for included files to be picked up by ibus
-sed -i '1i # Touched to update for Omakub defaults [5/2/2025]' ~/.XCompose
-ibus restart
+[ -f ~/.XCompose ] && sed -i '1i # Touched to update for Pegasus defaults' ~/.XCompose 2>/dev/null || true
+ibus restart 2>/dev/null || true

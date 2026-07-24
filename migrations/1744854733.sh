@@ -1,5 +1,7 @@
 #!/bin/bash
 
-source $OMAKUB_PATH/install/desktop/set-alacritty-default.sh
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-nautilus -q
+[ -f "$PEGASUS_PATH/install/desktop/set-alacritty-default.sh" ] && source "$PEGASUS_PATH/install/desktop/set-alacritty-default.sh"
+nautilus -q 2>/dev/null || true

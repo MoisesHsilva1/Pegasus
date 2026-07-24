@@ -1,15 +1,16 @@
 #!/bin/bash
 
-cp ~/.local/share/omakub/configs/alacritty/shared.toml ~/.config/alacritty/shared.toml
-cp ~/.local/share/omakub/configs/alacritty/pane.toml ~/.config/alacritty/pane.toml
-cp ~/.local/share/omakub/configs/alacritty/btop.toml ~/.config/alacritty/btop.toml
-cp ~/.local/share/omakub/configs/alacritty.toml ~/.config/alacritty/alacritty.toml
+PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
+[ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-source $OMAKUB_PATH/applications/About.sh
-source $OMAKUB_PATH/applications/Activity.sh
-source $OMAKUB_PATH/applications/Neovim.sh
-source $OMAKUB_PATH/applications/Docker.sh
-source $OMAKUB_PATH/applications/Omakub.sh
+[ -d "$PEGASUS_PATH/configs/alacritty" ] && cp "$PEGASUS_PATH/configs/alacritty/"* ~/.config/alacritty/ 2>/dev/null || true
+
+[ -f "$PEGASUS_PATH/applications/About.sh" ] && source "$PEGASUS_PATH/applications/About.sh"
+[ -f "$PEGASUS_PATH/applications/Activity.sh" ] && source "$PEGASUS_PATH/applications/Activity.sh"
+[ -f "$PEGASUS_PATH/applications/Neovim.sh" ] && source "$PEGASUS_PATH/applications/Neovim.sh"
+[ -f "$PEGASUS_PATH/applications/Docker.sh" ] && source "$PEGASUS_PATH/applications/Docker.sh"
+[ -f "$PEGASUS_PATH/applications/pegasus.sh" ] && source "$PEGASUS_PATH/applications/pegasus.sh"
+[ -f "$PEGASUS_PATH/applications/Theme.sh" ] && source "$PEGASUS_PATH/applications/Theme.sh"
 
 alacritty migrate 2>/dev/null || true
 alacritty migrate -c ~/.config/alacritty/pane.toml 2>/dev/null || true
