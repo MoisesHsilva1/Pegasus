@@ -1,4 +1,4 @@
-# Pegasus Linux (Fedora Workstation Developer Environment)
+# Pegasus
 
 Pegasus is a customized Fedora developer environment setup inspired by Omakub.
 
