@@ -15,8 +15,9 @@ echo -e "$ascii_art"
 echo "=> Pegasus is for fresh Fedora Workstation installations only!"
 echo -e "\nBegin installation (or abort with ctrl+c)..."
 
+echo "Checking initial dependencies..."
 sudo dnf check-update >/dev/null || true
-sudo dnf install -y git >/dev/null
+sudo dnf install -y git curl wget >/dev/null
 
 echo "Cloning Pegasus..."
 rm -rf ~/.local/share/pegasus ~/.local/share/omakub

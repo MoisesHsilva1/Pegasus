@@ -5,9 +5,17 @@ LANGS="${PEGASUS_FIRST_RUN_LANGUAGES:-$OMAKUB_FIRST_RUN_LANGUAGES}"
 if [[ -n "$LANGS" ]]; then
   languages=$LANGS
 else
-  AVAILABLE_LANGUAGES=("Ruby on Rails" "Node.js" "Go" "PHP" "Python" "Elixir" "Rust" "Java")
-  languages=$(gum choose "${AVAILABLE_LANGUAGES[@]}" --no-limit --height 10 --header "Select programming languages")
+  if ! command -v gum >/dev/null 2>&1; then
+    _DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    _ROOT="${PEGASUS_PATH:-$(cd "$_DIR/../.." && pwd)}"
+    [ -f "$_ROOT/install/terminal/required/app-gum.sh" ] && source "$_ROOT/install/terminal/required/app-gum.sh"
+  fi
+  if command -v gum >/dev/null 2>&1; then
+    AVAILABLE_LANGUAGES=("Ruby on Rails" "Node.js" "Go" "PHP" "Python" "Elixir" "Rust" "Java")
+    languages=$(gum choose "${AVAILABLE_LANGUAGES[@]}" --no-limit --height 10 --header "Select programming languages")
+  fi
 fi
+
 
 if [[ -n "$languages" ]]; then
   for language in $languages; do

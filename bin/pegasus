@@ -3,7 +3,20 @@
 PEGASUS_PATH="${PEGASUS_PATH:-$HOME/.local/share/pegasus}"
 [ ! -d "$PEGASUS_PATH" ] && PEGASUS_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+# Ensure gum is available for interactive commands
+if ! command -v gum >/dev/null 2>&1; then
+  if [ -f "$PEGASUS_PATH/install/terminal/required/app-gum.sh" ]; then
+    source "$PEGASUS_PATH/install/terminal/required/app-gum.sh" >/dev/null 2>&1 || true
+  fi
+  if ! command -v gum >/dev/null 2>&1; then
+    echo "Error: 'gum' is required for Pegasus CLI but could not be found."
+    echo "Please install 'gum' or re-run install.sh."
+    exit 1
+  fi
+fi
+
 case "${1:-}" in
+
   "doctor")
     source "$PEGASUS_PATH/scripts/doctor.sh"
     exit 0

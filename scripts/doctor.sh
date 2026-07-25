@@ -20,11 +20,17 @@ run_doctor() {
     step_error "OS: /etc/os-release not found"
   fi
 
-  # 2. Package Managers
+  # 2. Package Managers & UI Tools
   if command -v dnf >/dev/null 2>&1; then
     step_success "Package Manager: dnf available"
   else
     step_error "Package Manager: dnf missing"
+  fi
+
+  if command -v gum >/dev/null 2>&1; then
+    step_success "UI Engine: gum available ($(gum --version 2>/dev/null | head -n 1))"
+  else
+    step_error "UI Engine: gum missing"
   fi
 
   if command -v flatpak >/dev/null 2>&1; then

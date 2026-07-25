@@ -1,6 +1,18 @@
 #!/bin/bash
 
+# Ensure gum is available
+if ! command -v gum >/dev/null 2>&1; then
+  _DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  _ROOT="${PEGASUS_PATH:-$(cd "$_DIR/.." && pwd)}"
+  [ -f "$_ROOT/install/terminal/required/app-gum.sh" ] && source "$_ROOT/install/terminal/required/app-gum.sh"
+fi
+if ! command -v gum >/dev/null 2>&1; then
+  echo "Error: 'gum' is required for interactive choices but could not be found."
+  exit 1
+fi
+
 # Only ask for default desktop app choices when running Gnome
+
 if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* ]]; then
   OPTIONAL_APPS=("Spotify" "OBS-Studio" "1Password" "Mainline-Kernels")
   DEFAULT_OPTIONAL_APPS="Spotify,OBS-Studio,1Password"

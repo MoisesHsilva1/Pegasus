@@ -1,9 +1,53 @@
 #!/bin/bash
 
 # Gum is used for interactive CLI prompts and menus in Pegasus
-cd /tmp
-GUM_VERSION="0.17.0"
-wget -qO gum.rpm "https://github.com/charmbracelet/gum/releases/download/v${GUM_VERSION}/gum_${GUM_VERSION}_x86_64.rpm" 2>/dev/null || true
-sudo dnf install -y ./gum.rpm >/dev/null 2>&1 || true
-rm -f gum.rpm
-cd - >/dev/null
+install_gum() {
+  if command -v gum >/dev/null 2>&1; then
+    return 0
+  fi
+
+  local tmp_dir
+  tmp_dir=$(mktemp -d)
+  local gum_rpm="${tmp_dir}/gum.rpm"
+
+  local gum_url
+  gum_url=$(curl -s "https://api.github.com/repos/charmbracelet/gum/releases/latest" | grep -Po '"browser_download_url": "\K[^"]*x86_64\.rpm' | head -n 1)
+  if [ -z "$gum_url" ]; then
+    gum_url="https://github.com/charmbracelet/gum/releases/download/v0.17.0/gum-0.17.0-1.x86_64.rpm"
+  fi
+
+  if command -v curl >/dev/null 2>&1; then
+    curl -sLo "$gum_rpm" "$gum_url" 2>/dev/null || true
+  elif command -v wget >/dev/null 2>&1; then
+    wget -qO "$gum_rpm" "$gum_url" 2>/dev/null || true
+  fi
+
+  if [ -f "$gum_rpm" ] && [ $(wc -c <"$gum_rpm") -gt 1000 ]; then
+    sudo dnf install -y "$gum_rpm" >/dev/null || true
+  fi
+  rm -rf "$tmp_dir"
+
+  if ! command -v gum >/dev/null 2>&1; then
+    # Fallback: setup official Charm RPM repository
+    if [ ! -f /etc/yum.repos.d/charm.repo ]; then
+      echo '[charm]
+name=Charm
+baseurl=https://repo.charm.sh/yum/
+enabled=1
+gpgcheck=1
+gpgkey=https://repo.charm.sh/yum/gpg.key' | sudo tee /etc/yum.repos.d/charm.repo >/dev/null 2>&1 || true
+    fi
+    sudo dnf install -y gum >/dev/null || true
+  fi
+
+  if command -v gum >/dev/null 2>&1; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+install_gum
+
+
+

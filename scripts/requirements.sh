@@ -47,10 +47,67 @@ check_system_requirements() {
   fi
   step_success "Internet connection verified"
 
-  # 5. Base tools check
-  step_info "Verifying base tools..."
-  sudo dnf install -y git curl wget unzip jq flatpak dnf-plugins-core >/dev/null 2>&1 || true
-  step_success "Base system requirements met"
+  # 5. Base tools and dependencies verification & auto-install
+  step_info "Checking Pegasus dependencies..."
+
+  local base_pkgs_to_install=()
+  local required_tools=(
+    "git:git"
+    "curl:curl"
+    "wget:wget"
+    "unzip:unzip"
+    "jq:jq"
+    "flatpak:flatpak"
+    "gsettings:glib2"
+  )
+
+  for entry in "${required_tools[@]}"; do
+    local cmd="${entry%%:*}"
+    local pkg="${entry##*:}"
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+      base_pkgs_to_install+=("$pkg")
+    fi
+  done
+
+  if ! rpm -q dnf-plugins-core >/dev/null 2>&1; then
+    base_pkgs_to_install+=("dnf-plugins-core")
+  fi
+
+  if [ ${#base_pkgs_to_install[@]} -gt 0 ]; then
+    step_info "Installing missing base system packages (${base_pkgs_to_install[*]})..."
+    sudo dnf install -y "${base_pkgs_to_install[@]}" >/dev/null || true
+  fi
+
+  # Check and install gum if missing
+  if ! command -v gum >/dev/null 2>&1; then
+    step_info "Installing missing dependency: gum..."
+    if [ -f "$PEGASUS_DIR/install/terminal/required/app-gum.sh" ]; then
+      source "$PEGASUS_DIR/install/terminal/required/app-gum.sh" || true
+    fi
+  fi
+
+
+  # Validate all required tools and output individual statuses
+  local missing_tools=()
+  local tools_to_check=("git" "curl" "wget" "unzip" "jq" "flatpak" "gsettings" "gum")
+
+  for tool in "${tools_to_check[@]}"; do
+    if command -v "$tool" >/dev/null 2>&1; then
+      step_success "$tool installed"
+    else
+      step_error "$tool is missing and could not be installed automatically"
+      missing_tools+=("$tool")
+    fi
+  done
+
+  if [ ${#missing_tools[@]} -gt 0 ]; then
+    print_box_error "Required Pegasus dependencies are missing: ${missing_tools[*]}"
+    echo "Please install the missing tools manually before continuing."
+    exit 1
+  fi
+
+  step_success "Base system requirements and CLI dependencies met"
 }
 
 check_system_requirements
+
