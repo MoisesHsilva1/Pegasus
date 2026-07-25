@@ -6,6 +6,10 @@ The goal of Pegasus is to transform a fresh Fedora Workstation installation into
 
 ---
 
+<img width="1920" height="1080" alt="Screenshot From 2026-07-25 01-18-13" src="https://github.com/user-attachments/assets/ff643af8-b1db-4b54-93be-853b4949f98e" />
+
+
+
 ## Requirements
 
 - **OS:** Fedora Workstation 40+
