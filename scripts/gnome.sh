@@ -52,9 +52,9 @@ setup_gnome() {
   step_success "GNOME preferences & dock launchers configured"
 
   # Themes
-  step_info "Applying default Tokyo Night theme suite..."
-  export PEGASUS_THEME_COLOR="blue"
-  export PEGASUS_THEME_BACKGROUND="tokyo-night/background.jpg"
+  step_info "Applying default Matter Black theme suite..."
+  export PEGASUS_THEME_COLOR="slate"
+  export PEGASUS_THEME_BACKGROUND="matte-black/background.png"
   [ -f "$PEGASUS_DIR/themes/set-gnome-theme.sh" ] && source "$PEGASUS_DIR/themes/set-gnome-theme.sh" >/dev/null 2>&1 || true
   step_success "Theme suite applied"
 }

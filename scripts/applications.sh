@@ -32,8 +32,8 @@ install_applications() {
   sudo dnf install -y --skip-unavailable --skip-broken code >/dev/null 2>&1 || true
   mkdir -p ~/.config/Code/User
   [ -f "$PEGASUS_DIR/configs/vscode.json" ] && cp "$PEGASUS_DIR/configs/vscode.json" ~/.config/Code/User/settings.json 2>/dev/null || true
-  code --install-extension enkia.tokyo-night >/dev/null 2>&1 || true
-  step_success "Visual Studio Code installed and Tokyo Night theme configured"
+  code --install-extension cverlinden.cursor-dark >/dev/null 2>&1 || true
+  step_success "Visual Studio Code installed and Cursor Dark theme configured"
 
   # LibreOffice
   step_info "Installing LibreOffice..."
@@ -42,7 +42,7 @@ install_applications() {
 
   # Flatpak Target Applications (Obsidian, DBeaver Community, Postman, IntelliJ IDEA Community)
   step_info "Installing development & productivity applications via Flathub..."
-  
+
   step_info " -> Obsidian"
   flatpak install -y flathub md.obsidian.Obsidian >/dev/null 2>&1 || true
 

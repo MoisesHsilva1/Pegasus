@@ -14,4 +14,4 @@ mkdir -p ~/.config/Code/User
 [ -f "$PEGASUS_DIR/configs/vscode.json" ] && cp "$PEGASUS_DIR/configs/vscode.json" ~/.config/Code/User/settings.json 2>/dev/null || true
 
 # Install default supported themes
-code --install-extension enkia.tokyo-night >/dev/null 2>&1 || true
+code --install-extension cverlinden.cursor-dark >/dev/null 2>&1 || true
