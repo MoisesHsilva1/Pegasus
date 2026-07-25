@@ -16,8 +16,13 @@ echo "=> Pegasus is for fresh Fedora Workstation installations only!"
 echo -e "\nBegin installation (or abort with ctrl+c)..."
 
 echo "Checking initial dependencies..."
-sudo dnf check-update >/dev/null || true
-sudo dnf install -y git curl wget >/dev/null
+if command -v apt-get >/dev/null 2>&1; then
+  sudo apt-get update -y >/dev/null || true
+  sudo apt-get install -y git curl wget >/dev/null || true
+elif command -v dnf >/dev/null 2>&1; then
+  sudo dnf check-update >/dev/null || true
+  sudo dnf install -y git curl wget >/dev/null || true
+fi
 
 echo "Cloning Pegasus..."
 rm -rf ~/.local/share/pegasus ~/.local/share/omakub

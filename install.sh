@@ -8,6 +8,10 @@ PEGASUS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export PEGASUS_PATH="${PEGASUS_PATH:-$PEGASUS_DIR}"
 export OMAKUB_PATH="$PEGASUS_PATH"
 
+# Ensure PATH includes user and local binary directories
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:/usr/local/bin:$PATH"
+
+
 # Auto-apply execution permissions to scripts and binaries
 chmod +x "$PEGASUS_DIR/install.sh" "$PEGASUS_DIR/boot.sh" "$PEGASUS_DIR/update.sh" "$PEGASUS_DIR/uninstall.sh" "$PEGASUS_DIR/bin/pegasus" "$PEGASUS_DIR/bin/pegasus-sub"/*.sh "$PEGASUS_DIR/scripts"/*.sh 2>/dev/null || true
 

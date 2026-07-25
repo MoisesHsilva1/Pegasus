@@ -7,23 +7,35 @@ source "$PEGASUS_DIR/scripts/ui.sh"
 install_packages() {
   print_section "Installing Development Libraries & System Utilities"
 
-  # DNF System Upgrade & Core Libraries
+  # System Upgrade & Core Libraries
   step_info "Updating package repositories..."
-  sudo dnf check-update >/dev/null 2>&1 || true
+  if command -v apt-get >/dev/null 2>&1; then
+    sudo apt-get update -y >/dev/null 2>&1 || true
+    step_info "Installing core build tools and development libraries via APT..."
+    sudo apt-get install -y build-essential pkg-config autoconf bison clang rustc pipx \
+      libssl-dev libreadline-dev zlib1g-dev libyaml-dev libncurses5-dev libffi-dev libgdbm-dev \
+      libjemalloc-dev libvips-dev imagemagick mupdf mupdf-tools \
+      sqlite3 libsqlite3-dev libmariadb-dev libpq-dev >/dev/null 2>&1 || true
+    step_success "Core development libraries installed"
 
-  step_info "Installing core build tools and C/C++ development headers..."
-  sudo dnf install -y --skip-unavailable --skip-broken \
-    @development-tools pkgconfig autoconf bison clang rustc pipx \
-    openssl-devel readline-devel zlib-devel libyaml-devel ncurses-devel libffi-devel gdbm-devel jemalloc-devel \
-    vips-devel ImageMagick ImageMagick-devel mupdf mupdf-devel \
-    sqlite sqlite-devel mariadb-devel postgresql >/dev/null 2>&1 || true
-  step_success "Core development libraries installed"
+    step_info "Installing CLI utilities..."
+    sudo apt-get install -y fzf ripgrep bat eza zoxide plocate >/dev/null 2>&1 || true
+    step_success "CLI utilities installed"
+  elif command -v dnf >/dev/null 2>&1; then
+    sudo dnf check-update >/dev/null 2>&1 || true
+    step_info "Installing core build tools and development headers via DNF..."
+    sudo dnf install -y --skip-unavailable --skip-broken \
+      @development-tools pkgconfig autoconf bison clang rustc pipx \
+      openssl-devel readline-devel zlib-devel libyaml-devel ncurses-devel libffi-devel gdbm-devel jemalloc-devel \
+      vips-devel ImageMagick ImageMagick-devel mupdf mupdf-devel \
+      sqlite sqlite-devel mariadb-devel postgresql >/dev/null 2>&1 || true
+    step_success "Core development libraries installed"
 
-  # CLI Utilities
-  step_info "Installing CLI tools (fzf, ripgrep, bat, eza, zoxide, btop, fastfetch, gh, etc.)..."
-  sudo dnf install -y --skip-unavailable --skip-broken \
-    fzf ripgrep bat eza zoxide plocate httpd-tools fd-find btop fastfetch gh luarocks tree-sitter-cli >/dev/null 2>&1 || true
-  step_success "CLI utilities installed"
+    step_info "Installing CLI utilities..."
+    sudo dnf install -y --skip-unavailable --skip-broken \
+      fzf ripgrep bat eza zoxide plocate httpd-tools fd-find btop fastfetch gh luarocks tree-sitter-cli >/dev/null 2>&1 || true
+    step_success "CLI utilities installed"
+  fi
 
   # Neovim Stable Binary
   step_info "Installing Neovim stable..."
@@ -82,11 +94,11 @@ install_packages() {
 
   # Mise Version Manager
   step_info "Installing Mise runtime version manager..."
-  if [ ! -f /etc/yum.repos.d/mise.repo ]; then
-    sudo dnf config-manager --add-repo https://mise.jdx.dev/rpm/mise.repo 2>/dev/null || true
+  if [ -f "$PEGASUS_DIR/install/terminal/required/app-mise.sh" ]; then
+    source "$PEGASUS_DIR/install/terminal/required/app-mise.sh"
   fi
-  sudo dnf install -y --skip-unavailable mise >/dev/null 2>/dev/null || true
   step_success "Mise version manager installed"
+
 }
 
 install_packages

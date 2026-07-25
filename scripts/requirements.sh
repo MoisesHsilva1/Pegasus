@@ -23,12 +23,16 @@ check_system_requirements() {
   fi
 
   source /etc/os-release
-  if [ "$ID" != "fedora" ]; then
-    step_error "Unsupported OS: $ID ($NAME)"
-    echo "Pegasus is designed exclusively for Fedora Linux Workstation."
-    exit 1
-  fi
-  step_success "Fedora Linux detected ($NAME $VERSION_ID)"
+  case "${ID:-}" in
+    ubuntu|debian|fedora|rhel|centos|rocky|alma)
+      step_success "Supported Linux distribution detected ($NAME ${VERSION_ID:-})"
+      ;;
+    *)
+      step_error "Unsupported OS: ${ID:-unknown} ($NAME)"
+      echo "Pegasus supports Ubuntu, Debian, Fedora, and RHEL-based Linux distributions."
+      exit 1
+      ;;
+  esac
 
   # 3. Architecture check
   ARCH="$(uname -m)"
@@ -40,7 +44,7 @@ check_system_requirements() {
 
   # 4. Internet connection check
   step_info "Checking network connectivity..."
-  if ! curl -s --connect-timeout 5 https://fedoraproject.org >/dev/null && ! curl -s --connect-timeout 5 https://github.com >/dev/null; then
+  if ! curl -s --connect-timeout 5 https://ubuntu.com >/dev/null && ! curl -s --connect-timeout 5 https://fedoraproject.org >/dev/null && ! curl -s --connect-timeout 5 https://github.com >/dev/null; then
     step_error "No active internet connection detected"
     echo "An active internet connection is required to download packages and repositories."
     exit 1
@@ -65,17 +69,21 @@ check_system_requirements() {
     local cmd="${entry%%:*}"
     local pkg="${entry##*:}"
     if ! command -v "$cmd" >/dev/null 2>&1; then
+      if command -v apt-get >/dev/null 2>&1 && [ "$pkg" = "glib2" ]; then
+        pkg="libglib2.0-bin"
+      fi
       base_pkgs_to_install+=("$pkg")
     fi
   done
 
-  if ! rpm -q dnf-plugins-core >/dev/null 2>&1; then
-    base_pkgs_to_install+=("dnf-plugins-core")
-  fi
-
   if [ ${#base_pkgs_to_install[@]} -gt 0 ]; then
     step_info "Installing missing base system packages (${base_pkgs_to_install[*]})..."
-    sudo dnf install -y "${base_pkgs_to_install[@]}" >/dev/null || true
+    if command -v apt-get >/dev/null 2>&1; then
+      sudo apt-get update -y >/dev/null || true
+      sudo apt-get install -y "${base_pkgs_to_install[@]}" >/dev/null || true
+    elif command -v dnf >/dev/null 2>&1; then
+      sudo dnf install -y "${base_pkgs_to_install[@]}" >/dev/null || true
+    fi
   fi
 
   # Check and install gum if missing
@@ -86,10 +94,17 @@ check_system_requirements() {
     fi
   fi
 
+  # Check and install mise if missing
+  if ! command -v mise >/dev/null 2>&1; then
+    step_info "Installing missing dependency: mise..."
+    if [ -f "$PEGASUS_DIR/install/terminal/required/app-mise.sh" ]; then
+      source "$PEGASUS_DIR/install/terminal/required/app-mise.sh" || true
+    fi
+  fi
 
   # Validate all required tools and output individual statuses
   local missing_tools=()
-  local tools_to_check=("git" "curl" "wget" "unzip" "jq" "flatpak" "gsettings" "gum")
+  local tools_to_check=("git" "curl" "wget" "unzip" "jq" "flatpak" "gsettings" "gum" "mise")
 
   for tool in "${tools_to_check[@]}"; do
     if command -v "$tool" >/dev/null 2>&1; then
@@ -108,6 +123,7 @@ check_system_requirements() {
 
   step_success "Base system requirements and CLI dependencies met"
 }
+
 
 check_system_requirements
 
