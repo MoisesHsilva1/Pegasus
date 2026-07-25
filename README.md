@@ -1,61 +1,128 @@
-# Pegasus
+# Pegasus Linux (Fedora Workstation Developer Environment)
 
 Pegasus is a customized Fedora developer environment setup inspired by Omakub.
 
-The goal of Pegasus is to transform a fresh Fedora Workstation installation into a complete development environment with configured tools, applications, themes and GNOME customization.
+The goal of Pegasus is to transform a fresh Fedora Workstation installation into a complete, ready-to-use development workstation with pre-configured tools, terminal workflows, desktop themes, and GNOME customizations.
+
+---
 
 ## Requirements
 
-- Fedora Workstation 40+
-- GNOME Desktop (Wayland)
-- Internet connection
-- User with sudo privileges
+- **OS:** Fedora Workstation 40+
+- **Desktop:** GNOME (Wayland)
+- **Privileges:** Standard user with `sudo` access
+- **Network:** Active Internet connection
 
-## Installation
+---
+
+## Quick Installation
 
 Clone the repository:
 
 ```bash
-git clone https://github.com/MoisesHsilva1/pegasus.git
-cd pegasus
+git clone https://github.com/MoisesHsilva1/Pegasus.git ~/.local/share/pegasus
+cd ~/.local/share/pegasus
 ```
 
-Run the installer:
+Run the automated installer:
 
 ```bash
 bash install.sh
 ```
 
-Do not run the installer using `sudo`. Pegasus will request administrator permissions when necessary.
+> **Note:** Do **not** run `install.sh` using `sudo`. Pegasus will request administrator permissions when necessary.
 
-## Commands
+---
 
-Open Pegasus menu:
+## Pegasus Control Center & Management
+
+Pegasus provides both a terminal CLI interface and native GNOME desktop launchers.
+
+### 1. Pegasus Control Center
+
+Open the central interactive management menu by running in your terminal:
 
 ```bash
 pegasus
 ```
 
-System diagnostics:
+Or open GNOME Applications / Ulauncher (`Super + Space`) and search for:
+
+> **Pegasus Control Center**
+
+Features available inside the Control Center:
+- **Theme:** Switch visual desktop themes (Tokyo Night, Catppuccin, Nord, Gruvbox, etc.)
+- **Font:** Change coding fonts (Cascadia Mono, Fira Mono, JetBrains Mono) and font sizes
+- **Install / Uninstall:** Add or remove optional applications and development tools
+- **Update:** Upgrade Pegasus and managed packages
+- **Manual:** Access online project documentation
+
+---
+
+### 2. Pegasus Theme Manager
+
+To open the interactive theme selector directly from the terminal:
+
+```bash
+pegasus theme
+```
+
+Or search GNOME Applications / Ulauncher for:
+
+> **Pegasus Theme**
+
+#### Theme CLI Commands:
+
+- **List available themes:**
+  ```bash
+  pegasus theme list
+  ```
+- **Show active theme:**
+  ```bash
+  pegasus theme current
+  ```
+- **Apply a theme directly (by name or index):**
+  ```bash
+  pegasus theme apply Nord
+  # or
+  pegasus theme apply 6
+  ```
+
+---
+
+### 3. Programming Font Manager
+
+Change terminal & editor fonts or sizes:
+
+```bash
+pegasus font
+```
+
+---
+
+### 4. System Diagnostics (Pegasus Doctor)
+
+Verify OS version, package managers, Docker service status, and installed tools:
 
 ```bash
 pegasus doctor
 ```
 
-Update Pegasus:
+---
 
-```bash
-./update.sh
-```
+### 5. Maintenance Commands
 
-Remove Pegasus:
+- **Update Pegasus & Packages:**
+  ```bash
+  pegasus update
+  ```
+- **Uninstall Pegasus Launchers & Configurations:**
+  ```bash
+  pegasus uninstall
+  ```
 
-```bash
-./uninstall.sh
-```
+---
 
-## Credits
+## Credits & Inspiration
 
-Pegasus is inspired by the Omakub project:
-
-https://omakub.org
+Pegasus is built for Fedora Workstation and inspired by [Omakub](https://omakub.org).

@@ -8,8 +8,28 @@ PEGASUS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export PEGASUS_PATH="${PEGASUS_PATH:-$PEGASUS_DIR}"
 export OMAKUB_PATH="$PEGASUS_PATH"
 
-# Auto-apply execution permissions to scripts
-chmod +x "$PEGASUS_DIR/install.sh" "$PEGASUS_DIR/boot.sh" "$PEGASUS_DIR/update.sh" "$PEGASUS_DIR/uninstall.sh" "$PEGASUS_DIR/bin/pegasus" "$PEGASUS_DIR/scripts"/*.sh 2>/dev/null || true
+# Auto-apply execution permissions to scripts and binaries
+chmod +x "$PEGASUS_DIR/install.sh" "$PEGASUS_DIR/boot.sh" "$PEGASUS_DIR/update.sh" "$PEGASUS_DIR/uninstall.sh" "$PEGASUS_DIR/bin/pegasus" "$PEGASUS_DIR/bin/pegasus-sub"/*.sh "$PEGASUS_DIR/scripts"/*.sh 2>/dev/null || true
+
+# Install Pegasus binaries into ~/.local/bin
+mkdir -p "$HOME/.local/bin"
+mkdir -p "$HOME/.local/share"
+
+if [ "$PEGASUS_DIR" != "$HOME/.local/share/pegasus" ] && [ ! -d "$HOME/.local/share/pegasus" ]; then
+  ln -sf "$PEGASUS_DIR" "$HOME/.local/share/pegasus"
+fi
+
+ln -sf "$PEGASUS_DIR/bin/pegasus" "$HOME/.local/bin/pegasus"
+ln -sf "$PEGASUS_DIR/bin/pegasus" "$HOME/.local/bin/omakub"
+
+# Configure ~/.bashrc if not already set
+if [ -f "$HOME/.bashrc" ] && ! grep -q "pegasus/defaults/bash/rc" "$HOME/.bashrc"; then
+  echo "" >> "$HOME/.bashrc"
+  echo "# Pegasus Linux Configuration" >> "$HOME/.bashrc"
+  echo "if [ -f ~/.local/share/pegasus/defaults/bash/rc ]; then" >> "$HOME/.bashrc"
+  echo "  source ~/.local/share/pegasus/defaults/bash/rc" >> "$HOME/.bashrc"
+  echo "fi" >> "$HOME/.bashrc"
+fi
 
 # Load UI Formatting & Banners
 source "$PEGASUS_DIR/scripts/ui.sh"
@@ -48,6 +68,9 @@ if [[ "${XDG_CURRENT_DESKTOP:-}" == *"GNOME"* ]]; then
 
   # Desktop Applications & Flatpaks
   source "$PEGASUS_DIR/scripts/applications.sh"
+
+  # Desktop Entry Launchers (Pegasus Control Center, Pegasus Theme, etc.)
+  source "$PEGASUS_DIR/applications/pegasus.sh"
 
   # Optional Apps Selected by User
   if [[ -v OMAKUB_FIRST_RUN_OPTIONAL_APPS && -n "$OMAKUB_FIRST_RUN_OPTIONAL_APPS" ]]; then
